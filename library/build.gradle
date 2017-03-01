@@ -1,23 +1,11 @@
-
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
+apply plugin: 'com.novoda.bintray-release'
 
-apply plugin: 'checkstyle'
 
-check.dependsOn 'checkstyle'
-
-def configDir = "${project.rootDir}/config/quality"
-def reportsDir = "${project.buildDir}/reports"
 
 repositories {
-    mavenCentral()
-}
-task checkstyle(type: Checkstyle) {
-    configFile file("$configDir/checkstyle/checkstyle.xml")
-    configProperties.checkstyleSuppressionsPath = file("$configDir/checkstyle/suppressions.xml").absolutePath
-    source 'src'
-    include '**/*.java'
-    exclude '**/gen/**'
-    classpath = files()
+    jcenter()
 }
 
 
@@ -26,13 +14,18 @@ android {
     buildToolsVersion BUILD_TOOLS_VERSION as String
 
     defaultConfig {
-        minSdkVersion MIN_SDK_VERSION as int
+//        minSdkVersion MIN_SDK_VERSION as int
+        minSdkVersion 9
         targetSdkVersion TARGET_SDK_VERSION as int
         versionCode VERSION_CODE as int
         versionName VERSION_NAME as String
 
 //        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+    }
+    lintOptions {
+        abortOnError false
+        checkReleaseBuilds false
     }
     dataBinding {
         enabled = true
@@ -48,6 +41,14 @@ android {
     }
 }
 
+publish{
+    userOrg = 'haichecker'
+    groupId = 'com.shiwenping'
+    artifactId = 'HLibs'
+    publishVersion = '1.0.0'
+    desc = 'this is my android lib'
+    website = 'https://github.com/HaiChecker/HLib'
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -56,13 +57,12 @@ dependencies {
     })
     compile "com.android.support:appcompat-v7:${SUPPORT_V7_VERSION}"
     androidTestCompile "com.android.support:appcompat-v7:${SUPPORT_V7_VERSION}"
-    androidTestCompile 'com.tencent.bugly:crashreport:latest.release'
-    androidTestCompile "com.android.support:recyclerview-v7:${SUPPORT_V4_VERSION}"
+    androidTestCompile "com.android.support:recyclerview-v7:25.1.0"
     compile "com.google.guava:guava:${GUAVA_VERSION}"
     androidTestCompile "junit:junit:${JUNIT_VERSION}"
     androidTestCompile "com.google.truth:truth:${TRUTH_VERSION}"
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'io.reactivex:rxjava:1.1.0'
-    compile 'com.android.support:recyclerview-v7:25.0.1'
+    compile 'com.android.support:recyclerview-v7:25.1.0'
 }
