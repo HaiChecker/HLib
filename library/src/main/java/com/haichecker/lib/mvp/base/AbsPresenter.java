@@ -35,4 +35,16 @@ public abstract class AbsPresenter implements IBasePresenter {
     public IBaseView<? super IBasePresenter> getView(){
         return Preconditions.checkNotNull(iView);
     }
+
+    @Override
+    public void destroy() {
+        if (model != null)
+            model.destroy();
+    }
+
+    @Override
+    public void start() {
+        if (model != null)
+            model.start();
+    }
 }
