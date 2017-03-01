@@ -1,0 +1,225 @@
+package com.haichecker.lib.app;
+
+import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
+import android.os.Bundle;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
+
+import com.google.common.base.Preconditions;
+import com.haichecker.lib.setting.SettingInstance;
+
+/**
+ * @param <T>
+ */
+public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
+    /**
+     * fragmentBinding
+     */
+    public T fragmentBinding;
+    /**
+     * 监听数据变化对象
+     */
+    private SharedPreferences sharedPreferences;
+    /**
+     * 最顶层的View，用于加载状态布局所用
+     */
+    @Nullable
+    private ViewGroup rootViewGroup;
+    /**
+     * 空布局
+     */
+    private View emptyView;
+    /**
+     * 用户的布局View
+     */
+    @Nullable
+    private View userView;
+
+    @IdRes
+    private int emptyId = android.R.id.empty;
+
+    @Nullable
+    @Override
+    public View getView() {
+        return userView;
+    }
+
+    /**
+     * 设置状态布局
+     *
+     * @param emptyView 空布局View
+     */
+    public void setEmptyView(@Nullable View emptyView) {
+        this.emptyView = emptyView;
+        setEmptyViewId(emptyView);
+    }
+
+    public void setEmptyView(@LayoutRes int emptyViewRes) {
+        View tempEmptyView = LayoutInflater.from(getActivity()).inflate(emptyViewRes, rootViewGroup, false);
+        setEmptyView(tempEmptyView);
+    }
+
+    /**
+     * 设置状态布局Id
+     *
+     * @param emptyView 状态布局
+     */
+    private void setEmptyViewId(View emptyView) {
+        if (emptyView.getId() == 0) {
+            emptyView.setId(emptyId);
+        } else {
+            emptyId = emptyView.getId();
+        }
+    }
+
+    /**
+     * <p>判断是否显示状态布局中...</p>
+     *
+     * @return 返回状态布局是否现实  true-显示  false-没有现实
+     */
+    public boolean isShowingEmptyView() {
+        Preconditions.checkNotNull(rootViewGroup);
+        View v = rootViewGroup.findViewById(emptyId);
+        return (v != null && v.getVisibility() == View.VISIBLE);
+    }
+
+    /**
+     * <p>开启状态布局</p>
+     */
+    public void openEmptyView() {
+
+        Preconditions.checkNotNull(rootViewGroup);
+        Preconditions.checkNotNull(emptyView);
+        Preconditions.checkNotNull(userView);
+
+        rootViewGroup.addView(emptyView, new WindowManager.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT));
+        userView.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
+        //把布局移动到顶部
+        emptyView.bringToFront();
+    }
+
+    /**
+     * <p>获取当前状态布局</p>
+     *
+     * @return 当前状态布局
+     */
+    public View getEmptyView() {
+        Preconditions.checkNotNull(emptyView);
+        return emptyView;
+    }
+
+    /**
+     * <p>关闭状态布局</p>
+     */
+    public void dismissEmptyView() {
+
+        Preconditions.checkNotNull(rootViewGroup);
+        Preconditions.checkNotNull(emptyView);
+        Preconditions.checkNotNull(userView);
+
+        rootViewGroup.removeView(emptyView);
+        userView.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.GONE);
+    }
+
+
+    /**
+     * 初始化
+     */
+    private void init() {
+        rootViewGroup = new FrameLayout(getActivity());
+        ViewGroup.LayoutParams layoutParams = rootViewGroup.getLayoutParams();
+        if (layoutParams == null) {
+            layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        }
+        rootViewGroup.setLayoutParams(layoutParams);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (isOpenSharePreferenceChangeListener()) {
+            sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (isOpenSharePreferenceChangeListener()) {
+            sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (isOpenSharePreferenceChangeListener()) {
+            sharedPreferences = SettingInstance.getInstance(getActivity()).getSharedPreferences();
+        }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        fragmentBinding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false);
+        userView = fragmentBinding.getRoot();
+        init();
+
+        Preconditions.checkNotNull(rootViewGroup);
+        Preconditions.checkNotNull(userView);
+
+        rootViewGroup.addView(userView);
+        if (emptyView != null) {
+            emptyView.setVisibility(View.GONE);
+            rootViewGroup.addView(emptyView);
+        }
+        return rootViewGroup;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+
+    @LayoutRes
+    public abstract int getLayoutRes();
+
+
+    /**
+     * 是否开启监听
+     *
+     * @return 返回是否监听
+     */
+    public boolean isOpenSharePreferenceChangeListener() {
+        return false;
+    }
+
+    /**
+     * 收到监听的消息变化
+     *
+     * @param key
+     * @param sharedPreferences
+     */
+    public void onSharedPreferenceChangeds(String key, SharedPreferences sharedPreferences) {
+
+    }
+
+    private SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            onSharedPreferenceChangeds(key, sharedPreferences);
+        }
+    };
+}

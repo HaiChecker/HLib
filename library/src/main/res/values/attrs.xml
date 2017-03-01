@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="HButton">
+        <!--按下的图片-->
+        <attr name="touch_down_drawble" format="color|reference"/>
+        <!--弹起的图片-->
+        <attr name="touch_up_drawble" format="color|reference"/>
+        <!--按下的文字颜色-->
+        <attr name="touch_down_text" format="color"/>
+        <!--弹起的文字颜色-->
+        <attr name="touch_up_text" format="color"/>
+        <!--选中的颜色-->
+        <attr name="selected_text_color" format="color"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="SettingList">
+        <attr name="data_list" format="reference"/>
+    </declare-styleable>
+</resources>

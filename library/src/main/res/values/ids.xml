@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="setting_list_line_t" type="id"/>
+    <item name="setting_list_line_b" type="id"/>
+    <item name="setting_list_line_l" type="id"/>
+    <item name="setting_list_line_r" type="id"/>
+    <item name="setting_list_item_dot" type="id"/>
+    <item name="setting_list_item_root" type="id"/>
+</resources>

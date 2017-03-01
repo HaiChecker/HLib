@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="test_array">
+        <item>测试1</item>
+        <item>测试2</item>
+        <item name="">测试3</item>
+    </array>
+</resources>
