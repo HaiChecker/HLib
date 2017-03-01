@@ -31,4 +31,8 @@ public abstract class AbsPresenter implements IBasePresenter {
     public AbsModel<? super IBasePresenter> getModel() {
         return Preconditions.checkNotNull(model);
     }
+
+    public IBaseView<? super IBasePresenter> getView(){
+        return Preconditions.checkNotNull(iView);
+    }
 }

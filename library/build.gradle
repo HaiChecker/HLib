@@ -45,7 +45,7 @@ publish{
     userOrg = 'haichecker'
     groupId = 'com.shiwenping'
     artifactId = 'HLibs'
-    publishVersion = '1.0.0'
+    publishVersion = '1.0.2'
     desc = 'this is my android lib'
     website = 'https://github.com/HaiChecker/HLib'
 }
@@ -65,4 +65,5 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'io.reactivex:rxjava:1.1.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'
+    compile 'com.google.dagger:dagger:2.0'
 }
