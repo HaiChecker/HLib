@@ -13,8 +13,8 @@ public class NetworkUtils {
     /**
      * 判断是不是wifi网络状态
      *
-     * @param paramContext
-     * @return
+     * @param paramContext  上下文
+     * @return  发表关于true 表示是在wifi环境
      */
     public static boolean isWifi(Context paramContext) {
         return "2".equals(getNetType(paramContext)[0]);
@@ -23,8 +23,8 @@ public class NetworkUtils {
     /**
      * 判断是不是2/3G网络状态
      *
-     * @param paramContext
-     * @return
+     * @param paramContext 上下文
+     * @return  返回true 表示实在2/3G网络状况
      */
     public static boolean isMobile(Context paramContext) {
         return "1".equals(getNetType(paramContext)[0]);
@@ -33,8 +33,8 @@ public class NetworkUtils {
     /**
      * 网络是否可用
      *
-     * @param paramContext
-     * @return
+     * @param paramContext  上下文
+     * @return  true代表网络可用
      */
     public static boolean isNetAvailable(Context paramContext) {
         if ("1".equals(getNetType(paramContext)[0]) || "2".equals(getNetType(paramContext)[0])) {
@@ -46,8 +46,8 @@ public class NetworkUtils {
     /**
      * 获取当前网络状态 返回2代表wifi,1代表2G/3G
      *
-     * @param paramContext
-     * @return
+     * @param paramContext  上下文
+     * @return ...
      */
     public static String[] getNetType(Context paramContext) {
         String[] arrayOfString = {"Unknown", "Unknown"};

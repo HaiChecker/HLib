@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -19,6 +21,7 @@ import android.view.WindowManager;
 
 import com.google.common.base.Preconditions;
 import com.haichecker.lib.setting.SettingInstance;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -99,6 +102,8 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
 
     private View decorView;
 
+    private SystemBarTintManager tintManager;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -123,7 +128,20 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
 
             super.onCreate(null);
         }
+
+        tintManager = new SystemBarTintManager(this);
+        tintManager.setStatusBarTintEnabled(true);
+        tintManager.setNavigationBarTintEnabled(true);
+
+        // 自定义颜色
+//        tintManager.setTintColor(Color.parseColor("#218be9"));
         actionBar = getSupportActionBar();
+    }
+
+    protected void setTintColor(int color) {
+        if (tintManager != null) {
+            tintManager.setTintColor(color);
+        }
     }
 
     @Override
@@ -198,11 +216,6 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
                 y = event.getY();
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 isMove = !(event.getY() - y > MAX_Y || event.getY() - y < -MAX_Y);
-//                if (event.getY() - y > MAX_Y || event.getY() - y < -MAX_Y) {
-//                    isMove = false;
-//                } else {
-//                    isMove = true;
-//                }
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
                 if (isMove) {
                     long tempTime = System.currentTimeMillis();
@@ -341,7 +354,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     /**
      * 获取状态布局
      *
-     * @return  返回当前布局
+     * @return 返回当前布局
      */
     public View getEmptyView() {
         return this.emptyView;

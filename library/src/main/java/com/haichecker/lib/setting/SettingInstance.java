@@ -29,7 +29,7 @@ public class SettingInstance {
     /**
      * 获取默认
      *
-     * @return
+     * @return  返回SharedPreferences对象
      */
     public SharedPreferences getSharedPreferences() {
         if (sharedPreferencesSetting == null)
@@ -44,7 +44,7 @@ public class SettingInstance {
     /**
      * 设置存储名称
      *
-     * @param name
+     * @param name 存储的名称
      */
     public void setShareFileName(String name) {
         getSharedPreferencesOnlineFile().edit().putString(ShareFileName, name).apply();
@@ -53,7 +53,7 @@ public class SettingInstance {
     /**
      * 获取存储名字
      *
-     * @return
+     * @return  返回当前名称的对象
      */
     public String getShareFileName() {
         return getSharedPreferencesOnlineFile().getString(ShareFileName, "HaiCheckerFile");

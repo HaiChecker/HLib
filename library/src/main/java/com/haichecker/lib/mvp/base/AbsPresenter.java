@@ -6,34 +6,31 @@ import com.google.common.base.Preconditions;
  * 作   者 ： HaiChecker.Dev@gmail.com ON 17-3-1 10:53
  */
 
-public abstract class AbsPresenter implements IBasePresenter {
+public abstract class AbsPresenter<V extends IBaseView, M extends IBaseModel> implements IBasePresenter<M> {
 
-    private IBaseView<? super IBasePresenter> iView;
+    private V iView;
 
-    private AbsModel<? super IBasePresenter> model;
+    private M model;
 
-    public AbsPresenter(IBaseView<? super IBasePresenter> iView) {
+    public AbsPresenter(V iView) {
         this.iView = iView;
         iView.setPresenter(this);
     }
 
+
     @Override
-    public void setModel(AbsModel<? super IBasePresenter> model) {
+    public void setModel(M model) {
         this.model = model;
     }
 
     @Override
-    public IBasePresenter getPresenter() {
-        return this;
+    public M getModel() {
+        return model;
     }
 
-    @Override
-    public AbsModel<? super IBasePresenter> getModel() {
-        return Preconditions.checkNotNull(model);
-    }
 
-    public IBaseView<? super IBasePresenter> getView(){
-        return Preconditions.checkNotNull(iView);
+    public V getView() {
+        return iView;
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.common.base.Preconditions;
 
+import retrofit2.Retrofit;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
@@ -11,17 +12,49 @@ import rx.subscriptions.CompositeSubscription;
  * 作   者 ： HaiChecker.Dev@gmail.com ON 17-3-1 11:09
  */
 
-public abstract class AbsModel<P extends IBasePresenter> implements IBaseModel<P> {
+public abstract class AbsModel<T> implements IBaseModel {
 
-    private P presenter;
 
     private Context mContext;
     private CompositeSubscription mCompositeSubscription;
 
+    private T apiSerivce;
 
-    public AbsModel(Context mContext) {
-        this.mContext = mContext;
+    /**
+     * 获取API调用接口
+     *
+     * @return 返回当前
+     */
+    public T getApiSerivce() {
+        return apiSerivce;
     }
+
+    /**
+     * 自动设置API
+     *
+     * @param serivce 设置的API的类
+     */
+    private void setSerivce(Class<T> serivce) {
+        apiSerivce = getRetrofit().create(serivce);
+    }
+
+    /**
+     * 初始化函数
+     *
+     * @param mContext 上下文
+     * @param serivce  API接口的Class
+     */
+    public AbsModel(Context mContext, Class<T> serivce) {
+        this.mContext = mContext;
+        setSerivce(serivce);
+    }
+
+    /**
+     * 需要指定网络请求管理
+     *
+     * @return Retrofit对象
+     */
+    public abstract Retrofit getRetrofit();
 
     //提供给子类的方法
     public Subscription addSubscription(Subscription s) {
@@ -33,10 +66,6 @@ public abstract class AbsModel<P extends IBasePresenter> implements IBaseModel<P
         return s;
     }
 
-    @Override
-    public P getPresenter() {
-        return Preconditions.checkNotNull(presenter);
-    }
 
     @Override
     public void destroy() {
@@ -44,6 +73,10 @@ public abstract class AbsModel<P extends IBasePresenter> implements IBaseModel<P
             mCompositeSubscription.unsubscribe();
     }
 
+    /**
+     * 删除
+     * @param s
+     */
     public void removeSubscription(Subscription s) {
         if (this.mCompositeSubscription == null) {
             return;

@@ -4,5 +4,5 @@
     <color name="test_bfbfb">#bfbfbf</color>
     <color name="test_b00000">#000000</color>
     <color name="test_back">#ffffff</color>
-
+    <color name="action_bar_text_color">#fff</color>
 </resources>

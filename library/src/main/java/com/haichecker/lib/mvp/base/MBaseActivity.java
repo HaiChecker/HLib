@@ -50,6 +50,8 @@ public abstract class MBaseActivity<T extends ViewDataBinding, P extends IBasePr
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        com.google.common.base.Preconditions.checkNotNull(presenter).start();
+        if (presenter != null) {
+            presenter.start();
+        }
     }
 }

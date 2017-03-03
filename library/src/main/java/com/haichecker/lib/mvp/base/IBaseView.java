@@ -7,7 +7,7 @@ import android.content.Context;
  * 作   者 ： HaiChecker.Dev@gmail.com ON 17-3-1 10:46
  */
 
-public interface IBaseView<P extends IBasePresenter> {
+public interface IBaseView<P> {
     /**
      * 设置presenter对象
      * @param presenter presenter对象
