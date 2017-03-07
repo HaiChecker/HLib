@@ -8,6 +8,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,7 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
         setEmptyView(tempEmptyView);
     }
 
+
     /**
      * 设置状态布局Id
      *
@@ -119,6 +121,16 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
     }
 
     /**
+     * 返回最顶层的
+     *
+     * @return
+     */
+    @Nullable
+    public ViewGroup getRootViewGroup() {
+        return rootViewGroup;
+    }
+
+    /**
      * <p>关闭状态布局</p>
      */
     public void dismissEmptyView() {
@@ -141,6 +153,9 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
         ViewGroup.LayoutParams layoutParams = rootViewGroup.getLayoutParams();
         if (layoutParams == null) {
             layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        } else {
+            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
         }
         rootViewGroup.setLayoutParams(layoutParams);
     }
@@ -172,19 +187,22 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        fragmentBinding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false);
-        userView = fragmentBinding.getRoot();
+
+//        fragmentBinding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false);
+//        userView = fragmentBinding.getRoot();
         init();
-
-        Preconditions.checkNotNull(rootViewGroup);
-        Preconditions.checkNotNull(userView);
-
-        rootViewGroup.addView(userView);
-        if (emptyView != null) {
-            emptyView.setVisibility(View.GONE);
-            rootViewGroup.addView(emptyView);
-        }
-        return rootViewGroup;
+        userView = inflater.inflate(getLayoutRes(), container, false);
+        fragmentBinding = DataBindingUtil.bind(userView);
+        // TODO 添加状态，在ViewPager下无界面
+//        Preconditions.checkNotNull(rootViewGroup);
+//        Preconditions.checkNotNull(userView);
+//
+//        rootViewGroup.addView(userView);
+//        if (emptyView != null) {
+//            emptyView.setVisibility(View.GONE);
+//            rootViewGroup.addView(emptyView);
+//        }
+        return userView;
     }
 
     @Override

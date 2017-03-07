@@ -69,12 +69,16 @@ public abstract class AbsModel<T> implements IBaseModel {
 
     @Override
     public void destroy() {
+        if (this.mCompositeSubscription == null) {
+            return;
+        }
         if (!mCompositeSubscription.isUnsubscribed())
             mCompositeSubscription.unsubscribe();
     }
 
     /**
      * 删除
+     *
      * @param s
      */
     public void removeSubscription(Subscription s) {

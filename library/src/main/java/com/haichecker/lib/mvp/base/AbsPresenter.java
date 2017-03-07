@@ -37,6 +37,7 @@ public abstract class AbsPresenter<V extends IBaseView, M extends IBaseModel> im
     public void destroy() {
         if (model != null)
             model.destroy();
+        iView = null;
     }
 
     @Override

@@ -14,8 +14,8 @@ public class HomePresenter extends AbsPresenter<HomeContract.IHomeView, HomeCont
 
     public HomePresenter(HomeContract.IHomeView iView) {
         super(iView);
-        model = new HomeModel(iView.getContext());
-        setModel(model);
+//        model = new HomeModel(iView.getContext());
+//        setModel(model);
     }
 
     @Override

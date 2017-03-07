@@ -45,7 +45,7 @@ publish{
     userOrg = 'haichecker'
     groupId = 'com.shiwenping'
     artifactId = 'HLibs'
-    publishVersion = '1.1.0-beta'
+    publishVersion = '1.1.9-beta'
     desc = 'this is my android lib'
     website = 'https://github.com/HaiChecker/HLib'
 }
@@ -61,7 +61,8 @@ dependencies {
     compile "com.google.guava:guava:${GUAVA_VERSION}"
     androidTestCompile "junit:junit:${JUNIT_VERSION}"
     androidTestCompile "com.google.truth:truth:${TRUTH_VERSION}"
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'io.reactivex:rxjava:1.1.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'
