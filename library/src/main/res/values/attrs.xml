@@ -17,4 +17,34 @@
     <declare-styleable name="SettingList">
         <attr name="data_list" format="reference"/>
     </declare-styleable>
+    <declare-styleable name="StateViewLayout">
+        <attr name="state_show" format="boolean"/>
+    </declare-styleable>
+    <declare-styleable name="DefalutItemLayout">
+        <attr name="title_text" format="string"/>
+        <attr name="title_color" format="color"/>
+        <attr name="isDot" format="boolean"/>
+        <attr name="title_margin_left" format="integer"/>
+        <attr name="bottom_margin_left" format="integer"/>
+        <attr name="top_margin_left" format="integer"/>
+        <attr name="isTopLine" format="boolean"/>
+        <attr name="isBottomLine" format="boolean"/>
+        <attr name="lineColor" format="color"/>
+        <attr name="titleSize" format="integer"/>
+        <attr name="detailText" format="string"/>
+    </declare-styleable>
+    <declare-styleable name="EditItemLayout">
+        <attr name="none_text" format="string"/>
+        <attr name="none_hide" format="string"/>
+        <attr name="edit_text" format="string"/>
+        <attr name="edit_hide" format="string"/>
+        <attr name="edit_text_size" format="integer"/>
+        <attr name="edit_gravity" format="integer">
+            <enum name="left" value="3"/>
+            <enum name="right" value="5"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="MoreItemLayout">
+        <attr name="more_text" format="string"/>
+    </declare-styleable>
 </resources>

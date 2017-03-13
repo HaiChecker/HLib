@@ -6,6 +6,7 @@ import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.google.common.base.Preconditions;
 import com.haichecker.lib.app.BaseActivity;
 
 /**
@@ -28,7 +29,7 @@ public abstract class MBaseActivity<T extends ViewDataBinding, P extends IBasePr
         /**
          * 非空判断
          */
-        return com.google.common.base.Preconditions.checkNotNull(presenter);
+        return Preconditions.checkNotNull(presenter, "Check whether the presenter is instantiated");
     }
 
     @Override

@@ -23,7 +23,7 @@ public abstract class MBaseFragment<T extends ViewDataBinding, P extends IBasePr
 
     @Override
     public P getPresenter() {
-        return Preconditions.checkNotNull(presenter);
+        return Preconditions.checkNotNull(presenter, "Check whether the presenter is instantiated");
     }
 
     @Override

@@ -10,19 +10,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.haichecker.lib.app.BaseFragment;
+import com.haichecker.lib.app.web.HWebView;
+import com.haichecker.lib.app.web.JsClass;
 import com.haichecker.simple.R;
 import com.haichecker.simple.databinding.FragmentBlankBinding;
 
 public class BlankFragment extends BaseFragment<FragmentBlankBinding> {
 
     public BlankFragment() {
-        // Required empty public constructor
     }
 
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        fragmentBinding.webView.loadData(JsClass.web, "text/html", "UTF-8");
     }
 
     @Override
