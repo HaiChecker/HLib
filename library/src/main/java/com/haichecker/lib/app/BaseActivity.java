@@ -1,5 +1,6 @@
 package com.haichecker.lib.app;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 
 import com.google.common.base.Preconditions;
@@ -104,6 +106,19 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
 
     private SystemBarTintManager tintManager;
 
+    @TargetApi(19)
+    protected void setTranslucentStatus(boolean on) {
+        Window win = getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -139,6 +154,11 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
     protected void setTintColor(int color) {
+        // 4.4及以上版本开启
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setTranslucentStatus(true);
+        }
+
         if (tintManager != null) {
             tintManager.setTintColor(color);
         }
