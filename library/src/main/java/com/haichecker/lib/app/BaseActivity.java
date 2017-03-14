@@ -106,18 +106,18 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
 
     private SystemBarTintManager tintManager;
 
-    @TargetApi(19)
-    protected void setTranslucentStatus(boolean on) {
-        Window win = getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
-    }
+//    @TargetApi(19)
+//    protected void setTranslucentStatus(boolean on) {
+//        Window win = getWindow();
+//        WindowManager.LayoutParams winParams = win.getAttributes();
+//        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+//        if (on) {
+//            winParams.flags |= bits;
+//        } else {
+//            winParams.flags &= ~bits;
+//        }
+//        win.setAttributes(winParams);
+//    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -154,10 +154,11 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
     protected void setTintColor(int color) {
+        // TODO 这儿有问题需要解决，白色问题
         // 4.4及以上版本开启
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setTranslucentStatus(true);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            setTranslucentStatus(true);
+//        }
 
         if (tintManager != null) {
             tintManager.setTintColor(color);

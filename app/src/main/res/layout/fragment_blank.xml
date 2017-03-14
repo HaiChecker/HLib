@@ -11,10 +11,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="aaaaaaa"/>
-        <com.haichecker.lib.app.web.HWebView
-            android:id="@+id/webView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
     </FrameLayout>
 
 </layout>

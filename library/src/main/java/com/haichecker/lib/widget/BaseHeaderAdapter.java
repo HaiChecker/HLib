@@ -68,7 +68,6 @@ public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> exte
 
     @Override
     public int getItemCount() {
-        update();
         return count;
     }
 
@@ -87,8 +86,8 @@ public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> exte
     /**
      * 判断当前下标是否在头部
      *
-     * @param p
-     * @return
+     * @param p 当前坐标
+     * @return  返回是否为header
      */
     public boolean isHeader(int p) {
         int countP = 0;
@@ -117,7 +116,7 @@ public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> exte
     /**
      * 获取当前下标的头部索引
      *
-     * @param p
+     * @param p 当前坐标
      * @return
      */
     public int getHeaderIndex(int p) {

@@ -209,7 +209,9 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
         }
         if (isParent) {
             if (parent instanceof LinearLayout) {
-                parent.addView(mView);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                //TODO 需要添加参数
+                parent.addView(mView,lp);
             } else if (parent instanceof RelativeLayout) {
                 RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 lp.addRule(RelativeLayout.CENTER_HORIZONTAL);

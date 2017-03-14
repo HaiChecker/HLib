@@ -1,4 +1,4 @@
-package com.haichecker.simple.utils;
+package com.haichecker.lib.utils;
 
 import android.content.Context;
 
