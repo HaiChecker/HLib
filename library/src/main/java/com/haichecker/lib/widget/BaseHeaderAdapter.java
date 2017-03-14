@@ -3,6 +3,7 @@ package com.haichecker.lib.widget;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * 作   者 ： HaiChecker.Dev@gmail.com ON 17-3-8 11:19
@@ -12,7 +13,7 @@ public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> exte
 
 
     private ArrayList<ArrayList<Integer>> headerList = new ArrayList<>();
-
+    private HashMap<Integer, Integer> headerIndexHash = new HashMap<>();
     private int count = 0;
 
     public static final int HEADER = 2;
@@ -21,16 +22,20 @@ public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> exte
 
     public BaseHeaderAdapter<VH> update() {
         count = 0;
+        headerIndexHash.clear();
+        int hi = 0;
         headerList.clear();
         for (int i = 0; i < headerCount(); i++) {
-
+            headerIndexHash.put(hi, i);
+            hi++;
             ArrayList<Integer> countList = new ArrayList<>();
 
             for (int i1 = 0; i1 < count(i); i1++) {
+                headerIndexHash.put(hi, i);
+                hi++;
                 countList.add(i1);
             }
             count += countList.size();
-
             headerList.add(countList);
         }
         count += headerCount();
@@ -87,7 +92,7 @@ public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> exte
      * 判断当前下标是否在头部
      *
      * @param p 当前坐标
-     * @return  返回是否为header
+     * @return 返回是否为header
      */
     public boolean isHeader(int p) {
         int countP = 0;
@@ -100,15 +105,6 @@ public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> exte
             if (p == countP)
                 return true;
         }
-
-//        for (int i = 0; i < headerList.size(); i++) {
-//            for (int j = 0; j < headerList.get(i).size(); j++) {
-//                if (p == countP && j == i)
-//                    return true;
-//                countP++;
-//
-//            }
-//        }
         return false;
     }
 
@@ -120,16 +116,7 @@ public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> exte
      * @return
      */
     public int getHeaderIndex(int p) {
-        int countP = 0;
-        for (int i = 0; i < headerList.size(); i++) {
-            for (int j = 0; j < headerList.get(i).size(); j++) {
-                countP++;
-                if (countP == p - i) {
-                    return i;
-                }
-            }
-        }
-        return 0;
+        return headerIndexHash.get(p);
     }
 
 
