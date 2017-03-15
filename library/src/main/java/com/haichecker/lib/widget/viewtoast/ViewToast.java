@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ContentFrameLayout;
 import android.util.Log;
@@ -23,6 +24,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.haichecker.lib.R;
+
+import static android.support.constraint.ConstraintLayout.LayoutParams.PARENT_ID;
 
 
 /**
@@ -211,7 +214,7 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
             if (parent instanceof LinearLayout) {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 //TODO 需要添加参数
-                parent.addView(mView,lp);
+                parent.addView(mView, lp);
             } else if (parent instanceof RelativeLayout) {
                 RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
@@ -221,6 +224,13 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
                 FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 lp.gravity = Gravity.CENTER;
                 parent.addView(mView, lp);
+            } else if (parent instanceof ConstraintLayout) {
+                ConstraintLayout.LayoutParams lp = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                lp.bottomToBottom =PARENT_ID;
+                lp.topToTop = PARENT_ID;
+                lp.leftToLeft = PARENT_ID;
+                lp.rightToRight = PARENT_ID;
+                parent.addView(mView,lp);
             } else {
                 throw new ClassCastException(String.format("%s Layout is Error", parent.getClass().getSimpleName()));
             }
