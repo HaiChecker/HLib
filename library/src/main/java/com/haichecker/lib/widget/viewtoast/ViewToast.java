@@ -1,6 +1,8 @@
 package com.haichecker.lib.widget.viewtoast;
 
 import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,10 +28,21 @@ import android.widget.TextView;
 import com.haichecker.lib.R;
 
 import static android.support.constraint.ConstraintLayout.LayoutParams.PARENT_ID;
+import static com.haichecker.lib.widget.viewtoast.Style.STYLE_PROGRESS_BAR;
+import static com.haichecker.lib.widget.viewtoast.Style.STYLE_PROGRESS_CIR;
 
 
 /**
- * Created by root on 16-11-3.
+ * <h1>标准提示类，个人封装</h1>
+ * </br>
+ * 实现Dialog的{@link DialogInterface} 接口
+ * </br>
+ * 并重写了{@link DialogInterface#dismiss()} 和 {@link DialogInterface#cancel()}
+ * </br>
+ * <p>
+ * <p>详情了解请访问<a href="http://www.shiwenping.com/">我的个人网站</a></p>
+ *
+ * @param <T> 它的父控件，必须继承{@link ViewGroup}
  */
 
 public class ViewToast<T extends ViewGroup> implements DialogInterface {
@@ -100,6 +113,15 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
     public static final int LONG = 0x1;
 
     private boolean isShowing = false;
+    //显示动画
+    ObjectAnimator objectAnimator;
+    //关闭动画
+    ObjectAnimator objectAnimatorDis;
+    //颜色渐变和alpha动画
+    ObjectAnimator alphaAnimator;
+    ObjectAnimator colorAnimator;
+    //当前状态
+    private State currState = State.NONE;
 
     public Context getContext() {
         return mContext;
@@ -157,7 +179,7 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
     }
 
     public static <V extends ViewGroup> ViewToast createDefalut(Context mContext, V view) {
-        return ViewToast.create(mContext, Style.STYLE_PROGRESS_CIR)
+        return ViewToast.create(mContext, STYLE_PROGRESS_CIR)
                 .setParent(true)
                 .setParent(view)
                 .setGravity(null)
@@ -174,15 +196,10 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
 
     }
 
-    /**
-     * 设置是否自动关闭
-     */
-    public void setLong() {
-
+    private void changeStyle() {
+        mProgressBarH.setVisibility(style == STYLE_PROGRESS_BAR ? View.VISIBLE : View.GONE);
+        mProgressBarO.setVisibility(style == STYLE_PROGRESS_CIR ? View.VISIBLE : View.GONE);
     }
-
-    float h = 0;
-    ObjectAnimator objectAnimator;
 
     /**
      * 显示
@@ -196,20 +213,8 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
             public void onClick(View v) {
             }
         });
-        switch (style) {
-            case STYLE_PROGRESS_BAR:
-                mProgressBarH.setVisibility(View.VISIBLE);
-                mProgressBarO.setVisibility(View.GONE);
-                break;
-            case STYLE_PROGRESS_CIR:
-                mProgressBarH.setVisibility(View.GONE);
-                mProgressBarO.setVisibility(View.VISIBLE);
-                break;
-            case STYLE_TEXT:
-                mProgressBarH.setVisibility(View.GONE);
-                mProgressBarO.setVisibility(View.GONE);
-                break;
-        }
+        //修改状态
+        changeStyle();
         if (isParent) {
             if (parent instanceof LinearLayout) {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -226,11 +231,11 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
                 parent.addView(mView, lp);
             } else if (parent instanceof ConstraintLayout) {
                 ConstraintLayout.LayoutParams lp = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                lp.bottomToBottom =PARENT_ID;
+                lp.bottomToBottom = PARENT_ID;
                 lp.topToTop = PARENT_ID;
                 lp.leftToLeft = PARENT_ID;
                 lp.rightToRight = PARENT_ID;
-                parent.addView(mView,lp);
+                parent.addView(mView, lp);
             } else {
                 throw new ClassCastException(String.format("%s Layout is Error", parent.getClass().getSimpleName()));
             }
@@ -248,38 +253,107 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
             mView.setAlpha(0f);
         }
         mView.setVisibility(View.VISIBLE);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            ObjectAnimator.ofArgb(mView, "backgroundColor", 0x00000000, 0x80000000).setDuration(300).start();
-//        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            ObjectAnimator.ofFloat(mView, "alpha", 0f, 1f).setDuration(300).start();
+            ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(mView, "alpha", 0f, 1f);
+            colorAnimator = ObjectAnimator.ofInt(mView, "backgroundColor", 0x00000000, 0x36000000);
+            colorAnimator.setEvaluator(new ArgbEvaluator());
+            //动画组合
+            AnimatorSet set = new AnimatorSet();
+            set.play(colorAnimator);
+            set.play(alphaAnimator);
+            set.setDuration(300);
+            set.start();
         }
-//        ObjectAnimator.ofFloat(mTextView, "alpha", 0.7f, 1).setDuration(100).start();
-//        mView.findViewById(R.id.root_layout).getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                float mLayerWidth = (float) mView.findViewById(R.id.root_layout).getWidth();
-//                float mTextWidth = (float) mView.findViewById(R.id.root_layout).getHeight();
-//                if (!objectAnimator.isRunning()){
-//                    Log.d("Log", "mLayerWidthw =  " + mLayerWidth + "h = " + mTextWidth);
-//                }
-//                if (mLayerWidth != 0 && mTextWidth != 0 && mTextWidth != h && mView.getVisibility() == View.VISIBLE && (!objectAnimator.isRunning())) {
-//                    objectAnimator = ObjectAnimator.ofInt(new LayoutViewHelper(mView.findViewById(R.id.root_layout)), "height", (int) h, (int) mTextWidth);
-//                    objectAnimator.setDuration(300).start();
-//                    h = mTextWidth;
-//                }
-//                if (mView.getVisibility() == View.GONE)
-//                    mView.setVisibility(View.VISIBLE);
-//            }
-//        });
     }
 
-    ObjectAnimator objectAnimatorDis;
+    /**
+     * 无延迟关闭
+     */
+    public void hide() {
+        //动画组合对象
+        AnimatorSet set = new AnimatorSet();
+        //判断是否显示，没有显示则返回
+        if (!isShowing)
+            return;
+        //动画对象
+        alphaAnimator = ObjectAnimator.ofFloat(mView, "alpha", 1.0f, 0f);
+        colorAnimator = ObjectAnimator.ofInt(mView, "backgroundColor", 0x36000000, 0x00000000);
+        colorAnimator.setEvaluator(new ArgbEvaluator());
+        set.play(alphaAnimator);
+        set.play(colorAnimator);
+        set.setDuration(500);
+        set.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                //首先设置它的显示
+                mView.setVisibility(View.GONE);
+                //如果选择的是加载到父控件上，直接删除
+                if (isParent) {
+                    parent.removeView(mView);
+                } else {
+                    try {
+                        ContentFrameLayout frameLayout = (ContentFrameLayout) ((AppCompatActivity) mContext).getWindow().getDecorView().findViewById(android.R.id.content);
+                        frameLayout.removeView(mView);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                isShowing = false;
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+        set.start();
+    }
+
+    /**
+     * 关闭这个Toast，可以延迟关闭
+     *
+     * @param delay 延迟时间，单位（毫秒）
+     */
+    public void hide(long delay) {
+        hide(delay, null);
+    }
+
+    /**
+     * 可延迟关闭，可以有回调
+     *
+     * @param delay           延迟时间，单位(毫秒)
+     * @param dismissListener 回调事件
+     */
+    public void hide(long delay, final OnDismissListener dismissListener) {
+        new Handler().postAtTime(new Runnable() {
+            @Override
+            public void run() {
+                hide();
+                if (dismissListener != null) {
+                    dismissListener.onDismiss(ViewToast.toast);
+                }
+            }
+        }, delay);
+    }
 
     /**
      * 关闭
+     * <p>  不被建议函数 </p>
+     * {@link ViewToast#hide()}
      */
+    @Deprecated
     public void dissmiss() {
+        AnimatorSet set = new AnimatorSet();
         if (!isShowing)
             return;
 
@@ -288,10 +362,17 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
                 return;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            objectAnimatorDis = ObjectAnimator.ofFloat(mView, "alpha", 1.0f, 0f).setDuration(300);
+            objectAnimatorDis = ObjectAnimator.ofFloat(mView, "alpha", 1.0f, 0f);
+            colorAnimator = ObjectAnimator.ofInt(mView, "backgroundColor", 0x36000000, 0x00000000);
+            colorAnimator.setEvaluator(new ArgbEvaluator());
+            //动画组合
+            set.play(colorAnimator);
+            set.play(objectAnimatorDis);
+            set.setDuration(300);
+            set.start();
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            objectAnimatorDis.addListener(new Animator.AnimatorListener() {
+            set.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {
 
@@ -328,7 +409,12 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
         }
     }
 
-
+    /**
+     * {@link ViewToast#hide(long)}
+     *
+     * @param d
+     */
+    @Deprecated
     public void dissmiss(int d) {
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -338,7 +424,14 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
         }, d);
     }
 
-
+    /**
+     * <h1>不被建议</h1>
+     * 关闭，延迟多少毫秒，关闭可以收到回调
+     *
+     * @param num
+     * @param dismissListener
+     */
+    @Deprecated
     public void dissmiss(int num, final OnDismissListener dismissListener) {
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -497,6 +590,22 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
     }
 
     /**
+     * 修改状态
+     *
+     * @param state 状态
+     * @param text  文字
+     * @return 当前对象
+     */
+    private ViewToast<T> changeState(State state, String text) {
+        this.currState = state;
+        //设置文字
+        setText(text);
+        //修改状态
+
+        return this;
+    }
+
+    /**
      * 设置文本
      */
     public ViewToast<T> setText(String text) {
@@ -547,10 +656,10 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
     }
 
     public ViewToast<T> showProgress() {
-        if (mProgressBarH != null)
+        if (mProgressBarH != null && style == STYLE_PROGRESS_BAR)
             mProgressBarH.setVisibility(View.VISIBLE);
 
-        if (mProgressBarO != null)
+        if (mProgressBarO != null && style == STYLE_PROGRESS_CIR)
             mProgressBarO.setVisibility(View.VISIBLE);
         return this;
     }
@@ -562,12 +671,20 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
         return this;
     }
 
+    /**
+     * {@link ViewToast#hide()}
+     */
     @Override
+    @Deprecated
     public void cancel() {
         dismiss();
     }
 
+    /**
+     * {@link ViewToast#hide()}
+     */
     @Override
+    @Deprecated
     public void dismiss() {
         dissmiss();
     }
