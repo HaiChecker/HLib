@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -30,6 +31,7 @@ import com.haichecker.lib.R;
 import static android.support.constraint.ConstraintLayout.LayoutParams.PARENT_ID;
 import static com.haichecker.lib.widget.viewtoast.Style.STYLE_PROGRESS_BAR;
 import static com.haichecker.lib.widget.viewtoast.Style.STYLE_PROGRESS_CIR;
+import static com.haichecker.lib.widget.viewtoast.Style.STYLE_TEXT;
 
 
 /**
@@ -202,6 +204,16 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
     }
 
     /**
+     * 延迟显示
+     *
+     * @param delay 延迟时间,单位(毫秒)
+     */
+    public void show(long delay) {
+        show();
+        hide(delay);
+    }
+
+    /**
      * 显示
      */
     public void show() {
@@ -335,7 +347,7 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
      * @param dismissListener 回调事件
      */
     public void hide(long delay, final OnDismissListener dismissListener) {
-        new Handler().postAtTime(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 hide();
@@ -647,6 +659,7 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
     }
 
     public ViewToast<T> hideProgress() {
+        style = STYLE_TEXT;
         if (mProgressBarH != null)
             mProgressBarH.setVisibility(View.GONE);
 

@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.google.common.base.Preconditions;
 import com.haichecker.lib.R;
+import com.haichecker.lib.utils.DensityUtil;
 import com.haichecker.lib.widget.selectlist.adapter.BaseSelectAdapter;
 import com.haichecker.lib.widget.selectlist.been.BaseBeen;
 
@@ -93,7 +94,7 @@ public class SelectList<A extends BaseSelectAdapter> {
         View line = new View(getContext());
         line.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
         line.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
-        tabLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 60));
+        tabLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dip_px(40, mContext.getResources().getDisplayMetrics().density)));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             tabLayout.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
         }
@@ -117,7 +118,7 @@ public class SelectList<A extends BaseSelectAdapter> {
         window.setAnimationStyle(R.style.mypopwindow_anim_style);
     }
 
-    public ViewGroup getRoot(){
+    public ViewGroup getRoot() {
         return backgundView;
     }
 
@@ -132,12 +133,12 @@ public class SelectList<A extends BaseSelectAdapter> {
     }
 
     public void show() {
-        window.showAtLocation(root, Gravity.CENTER, 0, 0);
+        window.showAtLocation(root, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
     }
 
     public void show(Object obj) {
         this.obj = obj;
-        window.showAtLocation(root, Gravity.CENTER, 0, 0);
+        window.showAtLocation(root, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
     }
 
     public void dismiss() {
@@ -220,11 +221,11 @@ public class SelectList<A extends BaseSelectAdapter> {
 //        for (String s : data) {
 //            Log.d(s,s);
 //        }
-        add(title, adapter,null);
+        add(title, adapter, null);
     }
-    public  void add(String title,A listAdapter)
-    {
-        add(title, listAdapter,null);
+
+    public void add(String title, A listAdapter) {
+        add(title, listAdapter, null);
     }
     //@373399
 //    public void add(String title, ArrayList<String> data) {
@@ -253,7 +254,7 @@ public class SelectList<A extends BaseSelectAdapter> {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (onItemLongClickListener != null) {
-                    onItemLongClickListener.onLongClick(Integer.parseInt(listView.getTag().toString()), i, listView,view, obj);
+                    onItemLongClickListener.onLongClick(Integer.parseInt(listView.getTag().toString()), i, listView, view, obj);
                 }
                 return true;
             }
