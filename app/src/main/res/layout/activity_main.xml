@@ -20,16 +20,49 @@
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"/>-->
 
-        <Button
-            android:id="@+id/viewToast"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ViewToast"/>
+        <com.haichecker.simple.HuaView
+            android:id="@+id/huaView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <com.haichecker.lib.widget.viewtoast.StateArc
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/colorAccent"/>
+
+
+            <RelativeLayout
+                android:background="#ff00"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                />
+        </com.haichecker.simple.HuaView>
+
+
+        <com.haichecker.lib.widget.stateview.LodingView
+            android:id="@+id/lodingView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/viewToast"/>
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/viewToast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ViewToast"/>
+
+            <com.haichecker.lib.widget.viewtoast.StateArc
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewToast"/>
+        </com.haichecker.lib.widget.stateview.LodingView>
+
+
     </RelativeLayout>
 
 </layout>

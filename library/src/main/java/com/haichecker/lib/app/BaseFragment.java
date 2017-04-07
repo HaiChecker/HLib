@@ -69,6 +69,14 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
         setEmptyView(tempEmptyView);
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+    }
+
+    public void onLoad() {
+
+    }
 
     /**
      * 设置状态布局Id
@@ -134,14 +142,9 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
      * <p>关闭状态布局</p>
      */
     public void dismissEmptyView() {
-
-        Preconditions.checkNotNull(rootViewGroup);
-        Preconditions.checkNotNull(emptyView);
-        Preconditions.checkNotNull(userView);
-
-        rootViewGroup.removeView(emptyView);
-        userView.setVisibility(View.VISIBLE);
-        emptyView.setVisibility(View.GONE);
+        Preconditions.checkNotNull(rootViewGroup).removeView(emptyView);
+        Preconditions.checkNotNull(emptyView).setVisibility(View.GONE);
+        Preconditions.checkNotNull(userView).setVisibility(View.VISIBLE);
     }
 
 

@@ -44,31 +44,58 @@ public class SelectList<A extends BaseSelectAdapter> {
     private PopupWindow window;
     private View root;
     private OnItemClickListener itemListener;
-    private OnItemViewListener onItemViewClockListener;
+    private OnItemViewListener onItemViewClickListener;
     private OnItemLongClickListener onItemLongClickListener;
     private FrameLayout backgundView;
     private Object obj;
 
-    public OnItemViewListener getOnItemViewClockListener() {
-        return onItemViewClockListener;
+
+    /**
+     * 内容item单击事件
+     *
+     * @param onItemViewClockListener
+     */
+    public void setOnItemViewClickListener(OnItemViewListener onItemViewClockListener) {
+        this.onItemViewClickListener = onItemViewClockListener;
     }
 
-    public void setOnItemViewClockListener(OnItemViewListener onItemViewClockListener) {
-        this.onItemViewClockListener = onItemViewClockListener;
+    public OnItemViewListener getOnItemViewClickListener() {
+        return onItemViewClickListener;
     }
 
+    /**
+     * 单击事件
+     *
+     * @param c
+     */
     public void setOnItemClickListener(OnItemClickListener c) {
         itemListener = c;
     }
 
+    /**
+     * 长按事件
+     *
+     * @param onItemLongClickListener
+     */
     public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
         this.onItemLongClickListener = onItemLongClickListener;
     }
 
+    /**
+     * 获取选项总数
+     *
+     * @return 选项总数
+     */
     public int getGroupCount() {
         return dataViews.size();
     }
 
+    /**
+     * 初始化函数
+     *
+     * @param mContext 上下文
+     * @param root     最大父View
+     */
     public SelectList(Context mContext, View root) {
         this.mContext = mContext;
         this.root = root;
@@ -100,7 +127,7 @@ public class SelectList<A extends BaseSelectAdapter> {
         }
         tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
         tabLayout.setSelectedTabIndicatorHeight(5);
-        tabLayout.setTabTextColors(ContextCompat.getColor(getContext(), R.color.test_b00000), ContextCompat.getColor(getContext(), R.color.colorPrimary));
+            tabLayout.setTabTextColors(ContextCompat.getColor(getContext(), R.color.test_b00000), ContextCompat.getColor(getContext(), R.color.colorPrimary));
         rootView.addView(tabLayout);
         rootView.addView(line);
         pager = new ViewPager(getContext());
@@ -118,37 +145,72 @@ public class SelectList<A extends BaseSelectAdapter> {
         window.setAnimationStyle(R.style.mypopwindow_anim_style);
     }
 
+    /**
+     * 获取root
+     *
+     * @return root
+     */
     public ViewGroup getRoot() {
         return backgundView;
     }
 
+    /**
+     * 获取当前选项的Index
+     *
+     * @return index
+     */
     public int getCurrentGroupIndex() {
         return pager == null ? -1 : pager.getCurrentItem();
     }
 
+    /**
+     * 设置标题颜色
+     *
+     * @param color 颜色
+     */
     public void setTitleSelectedTextColor(@ColorInt int color) {
         if (tabLayout != null) {
             tabLayout.setSelectedTabIndicatorColor(color);
         }
     }
 
+    /**
+     * 显示
+     */
     public void show() {
         window.showAtLocation(root, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
     }
 
+    /**
+     * 显示
+     *
+     * @param obj 可用于多个不同种类的Adapter做判断
+     */
     public void show(Object obj) {
         this.obj = obj;
-        window.showAtLocation(root, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        show();
     }
 
+    /**
+     * 关闭
+     */
     public void dismiss() {
         window.dismiss();
     }
 
+    /**
+     * 当前状态
+     */
     public enum State {
         LOADING, SUCCESS, ERROR
     }
 
+    /**
+     * 修改状态，如果数据是网络请求的，建议启用状态
+     *
+     * @param groupIndex index
+     * @param s          状态 来自{@link State}
+     */
     public void changeState(int groupIndex, State s) {
         dataViews.get(groupIndex).findViewById(android.R.id.progress).setVisibility(s == State.LOADING ? View.VISIBLE : View.GONE);
         dataViews.get(groupIndex).findViewById(android.R.id.list).setVisibility(s == State.SUCCESS ? View.VISIBLE : View.GONE);
@@ -165,6 +227,15 @@ public class SelectList<A extends BaseSelectAdapter> {
         ((TextView) dataViews.get(groupIndex).findViewById(android.R.id.text1)).setText(str);
     }
 
+    /**
+     * 设置
+     *
+     * @param title
+     * @param data
+     * @param groupId
+     * @param isSetCurrentItem
+     * @param <T>
+     */
     public <T extends BaseBeen> void set(String title, ArrayList<T> data, int groupId, boolean isSetCurrentItem) {
         changeTitle(groupId, title);
         change(data, groupId);
@@ -174,11 +245,15 @@ public class SelectList<A extends BaseSelectAdapter> {
         }
     }
 
+    /**
+     * 删除Index后面的选项卡，包括当前
+     *
+     * @param groupId Index
+     */
     public void del(int groupId) {
 
         int count = dataViews.size() - groupId;
 
-        Log.d(this.getClass().getSimpleName(), "循环次数：" + count);
         pager.setCurrentItem(groupId - 1);
         for (int i = 0; i < count; i++) {
             dataViews.remove(groupId);
@@ -186,16 +261,12 @@ public class SelectList<A extends BaseSelectAdapter> {
             dataViewAdapters.remove(groupId);
             titles.remove(groupId);
         }
-//        for (int i = groupId; i < dataViewAdapters.size() - groupId; i++) {
-//            dataViewAdapters.remove(groupId);
-//        }
-//
-//        for (int i = groupId; i < titles.size() - groupId; i++) {
-//            titles.remove(groupId);
-//        }
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * 清空
+     */
     private void clear() {
         if (dataViewAdapters != null) {
             for (A dataViewAdapter : dataViewAdapters) {
@@ -215,33 +286,44 @@ public class SelectList<A extends BaseSelectAdapter> {
         }
     }
 
+    /**
+     * 删掉所有选项，重新加载
+     *
+     * @param title   标题
+     * @param adapter Adapter
+     */
     public void reAdd(String title, A adapter) {
         clear();
-//        del(0);
-//        for (String s : data) {
-//            Log.d(s,s);
-//        }
         add(title, adapter, null);
     }
 
+    /**
+     * 追加一个选项
+     *
+     * @param title       标题
+     * @param listAdapter Adapter
+     */
     public void add(String title, A listAdapter) {
         add(title, listAdapter, null);
     }
-    //@373399
-//    public void add(String title, ArrayList<String> data) {
-//        add(title, data, null);
-//    }
 
-    //@373399
-    public <L extends ListView> void add(String title, A listAdapter, L a) {
+    /**
+     * 追加一个选项
+     *
+     * @param title       标题
+     * @param listAdapter Adapter
+     * @param listview    自定义的ListView
+     * @param <L>         基层至 {@link ListView}
+     */
+    public <L extends ListView> void add(String title, A listAdapter, L listview) {
         Preconditions.checkNotNull(title);
         titles.add(title);
 
-        if (a == null) {
-            a = (L) new ListView(getContext());
+        if (listview == null) {
+            listview = (L) new ListView(getContext());
         }
 
-        final ListView listView = a;
+        final ListView listView = listview;
 
         listView.setTag(dataViews.size());
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -306,10 +388,19 @@ public class SelectList<A extends BaseSelectAdapter> {
         public void onLongClick(int groupIndex, int pIndex, View view, Object obj);
     }
 
+    /**
+     * 修改标题
+     *
+     * @param groupIndex 　index
+     * @param title      标题内容
+     */
     public void changeTitle(int groupIndex, String title) {
         titles.set(groupIndex, title);
     }
 
+    /**
+     * 刷新当前ViewPager
+     */
     public void notifyDataSetChanged() {
         if (adapter != null) {
             adapter.notifyDataSetChanged();
@@ -322,74 +413,29 @@ public class SelectList<A extends BaseSelectAdapter> {
         getAdapter(groupIndex).update(data);
     }
 
+    /**
+     * 获取所有adapter
+     *
+     * @return 返回所有的adapter
+     */
+    public ArrayList<A> getAdapters() {
+        return dataViewAdapters;
+    }
+
+
+    /**
+     * 不被建议使用，建议使用 {@link SelectList#getAdapters()}
+     *
+     * @param groupIndex 当前的下标
+     * @return 返回当前Adapter
+     */
+    @Deprecated
     public A getAdapter(int groupIndex) {
+        if (dataViewAdapters.size() == 0)
+            return null;
         return dataViewAdapters.get(groupIndex);
     }
 
-//    private class DataViewAdapter extends BaseAdapter {
-//        public void clear() {
-//            data = null;
-//            notifyDataSetChanged();
-//        }
-//
-//        private ArrayList<String> data;
-//
-//        public void update(ArrayList<String> data) {
-//            this.data = data;
-//            notifyDataSetChanged();
-//        }
-//
-//        public DataViewAdapter(ArrayList<String> data) {
-//            this.data = data;
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return data == null ? 0 : data.size();
-//        }
-//
-//        @Override
-//        public Object getItem(int i) {
-//            return data.get(i);
-//        }
-//
-//        @Override
-//        public long getItemId(int i) {
-//            return i;
-//        }
-//
-//        @Override
-//        public View getView(int i, View view, ViewGroup viewGroup) {
-//            Hodler hodler = null;
-//            if (view == null) {
-//                TextView textView = new TextView(getContext());
-//                FrameLayout.LayoutParams l = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-//                l.leftMargin = 10;
-//                textView.setLayoutParams(l);
-//                textView.setTextColor(ContextCompat.getColor(getContext(), R.color.test_back_333));
-//                textView.setTextSize(24);
-//                textView.setGravity(Gravity.CENTER_VERTICAL);
-//                FrameLayout frameLayout = new FrameLayout(getContext());
-//                frameLayout.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
-//                frameLayout.addView(textView);
-//                hodler = new Hodler();
-//                hodler.textView = textView;
-//                hodler.frameLayout = frameLayout;
-//                view = frameLayout;
-//                view.setTag(hodler);
-//            } else {
-//                hodler = (Hodler) view.getTag();
-//            }
-//            hodler.textView.setText(data.get(i));
-//            Log.d(data.get(i), data.get(i));
-//            return view;
-//        }
-//
-//        private class Hodler {
-//            TextView textView;
-//            FrameLayout frameLayout;
-//        }
-//    }
 
     private class ViewPagerAdapter extends PagerAdapter {
 
@@ -403,41 +449,28 @@ public class SelectList<A extends BaseSelectAdapter> {
             return view == object;
         }
 
-//        @Override
-//        public void destroyItem(ViewGroup container, int position, Object object) {
-//            if (dataViews.size() == 0) {
-//                ((ViewPager) container).removeAllViews();
-//            } else {
-//                ((ViewPager) container).removeView(dataViews.get(position % dataViews.size()));
-//            }
-//        }
-
         @Override
         public int getItemPosition(Object object) {
-//            return null != dataViews && dataViews.size() == 0 ? POSITION_NONE : super.getItemPosition(object);
             return POSITION_NONE;
         }
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
 
-            container.addView(dataViews.get(position % dataViews.size()));
-            return dataViews.get(position % dataViews.size());
+            container.addView(dataViews.get(position));
+            return dataViews.get(position);
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            if (dataViews.size() == 0)
-                return;
-            if (position == 0)
-                container.removeView(dataViews.get(position));
-            else
-                container.removeView(dataViews.get(position % dataViews.size()));
+//            if (dataViews.size() == 0)
+//                return;
+            container.removeView((View) object);
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return titles.get(position % dataViews.size());
+            return titles.get(position);
         }
     }
 }

@@ -3,6 +3,7 @@ package com.haichecker.simple;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.haichecker.lib.app.BaseActivity;
 import com.haichecker.lib.widget.viewtoast.ViewToast;
@@ -24,6 +25,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                         .show();
             }
         });
+//        if (databinding.lodingView.isShowMessageing()) {
+//            ((Button) databinding.lodingView.getMessageView()).setText("哈哈");
+//        }
     }
 
     @Override

@@ -1,6 +1,11 @@
 package com.haichecker.lib.app;
 
 import android.app.Application;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //import com.tencent.bugly.crashreport.CrashReport;
 
@@ -8,16 +13,17 @@ import android.app.Application;
  * Created by root on 16-11-11.
  */
 
-public abstract class BaseApplication extends Application {
+public abstract class BaseApplication extends MultiDexApplication {
+    private List<BaseActivity> allActivity;
+
     @Override
     public void onCreate() {
-//        CrashReport.initCrashReport(this, buglyKey(), true);
         super.onCreate();
+        MultiDex.install(this);
+        allActivity = new ArrayList<>();
     }
-    /**
-     * 返回腾讯ＢｕｇｌｙＫｅｙ
-     *
-     * @return
-     */
-    public abstract String buglyKey();
+
+    public List<BaseActivity> getAllActivity() {
+        return allActivity;
+    }
 }

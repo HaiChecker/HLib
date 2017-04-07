@@ -39,8 +39,8 @@ public abstract class BaseSelectAdapter<T extends BaseBeen> extends BaseAdapter 
     }
 
     public void callClick(View view, int p, Object obj) {
-        if (list.getOnItemViewClockListener() != null) {
-            list.getOnItemViewClockListener().onClick(groupIndex, p, view, obj);
+        if (list.getOnItemViewClickListener() != null) {
+            list.getOnItemViewClickListener().onClick(groupIndex, p, view, obj);
         }
     }
 
@@ -61,7 +61,7 @@ public abstract class BaseSelectAdapter<T extends BaseBeen> extends BaseAdapter 
     }
 
     public List<T> getData() {
-        return Preconditions.checkNotNull(data);
+        return data;
     }
 
     public void clear() {

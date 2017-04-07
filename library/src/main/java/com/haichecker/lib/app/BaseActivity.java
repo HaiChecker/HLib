@@ -27,6 +27,8 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 
 /**
  * @param <T> DataBinding对象，需要与layout对应
@@ -151,7 +153,10 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         // 自定义颜色
 //        tintManager.setTintColor(Color.parseColor("#218be9"));
         actionBar = getSupportActionBar();
+
+        ((BaseApplication) getApplication()).getAllActivity().add(this);
     }
+
 
     protected void setTintColor(int color) {
         // TODO 这儿有问题需要解决，白色问题
@@ -194,6 +199,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
             sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
         }
         super.onDestroy();
+        ((BaseApplication) getApplication()).getAllActivity().remove(this);
     }
 
     @Override

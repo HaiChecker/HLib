@@ -8,7 +8,7 @@
         >
         <provider
             android:name=".download.db.DownLoadContentProvider"
-            android:authorities="com.haichecker.lib.download.db.DownLoadContentProvider"/>
+            android:authorities="icom.haichecker.lib.download.db.DownLoadContentProvider"/>
     </application>
 
 </manifest>
