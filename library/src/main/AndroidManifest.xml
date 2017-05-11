@@ -6,9 +6,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         >
-        <provider
-            android:name=".download.db.DownLoadContentProvider"
-            android:authorities="icom.haichecker.lib.download.db.DownLoadContentProvider"/>
     </application>
 
 </manifest>

@@ -1,5 +1,9 @@
 package com.haichecker.lib.widget.selectlist;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.ColorInt;
@@ -48,7 +52,7 @@ public class SelectList<A extends BaseSelectAdapter> {
     private OnItemLongClickListener onItemLongClickListener;
     private FrameLayout backgundView;
     private Object obj;
-
+    private int heightPixels;
 
     /**
      * 内容item单击事件
@@ -98,6 +102,7 @@ public class SelectList<A extends BaseSelectAdapter> {
      */
     public SelectList(Context mContext, View root) {
         this.mContext = mContext;
+        heightPixels = mContext.getResources().getDisplayMetrics().heightPixels;
         this.root = root;
         dataViews = new ArrayList<>();
         titles = new ArrayList<>();
@@ -112,7 +117,8 @@ public class SelectList<A extends BaseSelectAdapter> {
         backgundView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         backgundView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.test_back_bantou));
         rootView = new LinearLayout(getContext());
-        FrameLayout.LayoutParams l = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, mContext.getResources().getDisplayMetrics().heightPixels / 2);
+        rootView.setVisibility(View.GONE);
+        FrameLayout.LayoutParams l = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, heightPixels / 2);
         l.gravity = Gravity.BOTTOM;
         rootView.setLayoutParams(l);
         tabLayout = new TabLayout(getContext());
@@ -127,7 +133,7 @@ public class SelectList<A extends BaseSelectAdapter> {
         }
         tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
         tabLayout.setSelectedTabIndicatorHeight(5);
-            tabLayout.setTabTextColors(ContextCompat.getColor(getContext(), R.color.test_b00000), ContextCompat.getColor(getContext(), R.color.colorPrimary));
+        tabLayout.setTabTextColors(ContextCompat.getColor(getContext(), R.color.test_b00000), ContextCompat.getColor(getContext(), R.color.colorPrimary));
         rootView.addView(tabLayout);
         rootView.addView(line);
         pager = new ViewPager(getContext());
@@ -140,9 +146,9 @@ public class SelectList<A extends BaseSelectAdapter> {
         tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         backgundView.addView(rootView);
         window = new PopupWindow(backgundView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        window.setHeight(mContext.getResources().getDisplayMetrics().heightPixels);
+        window.setHeight(heightPixels);
         window.setWidth(mContext.getResources().getDisplayMetrics().widthPixels);
-        window.setAnimationStyle(R.style.mypopwindow_anim_style);
+//        window.setAnimationStyle(R.style.mypopwindow_anim_style);
     }
 
     /**
@@ -179,6 +185,37 @@ public class SelectList<A extends BaseSelectAdapter> {
      */
     public void show() {
         window.showAtLocation(root, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        AnimatorSet animatorSet = new AnimatorSet();
+        ObjectAnimator objectAnimator = ObjectAnimator.ofArgb(backgundView, "backgroundColor", 0x00000000, 0x55000000);
+        objectAnimator.setEvaluator(new ArgbEvaluator());
+        animatorSet.play(objectAnimator);
+
+
+        ObjectAnimator rootViewAnim = ObjectAnimator.ofFloat(rootView, "Y", heightPixels, heightPixels / 2);
+        animatorSet.play(rootViewAnim);
+        animatorSet.setDuration(500);
+        animatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+                rootView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+        animatorSet.start();
     }
 
     /**
@@ -195,7 +232,39 @@ public class SelectList<A extends BaseSelectAdapter> {
      * 关闭
      */
     public void dismiss() {
-        window.dismiss();
+        AnimatorSet animatorSet = new AnimatorSet();
+        ObjectAnimator objectAnimator = ObjectAnimator.ofArgb(backgundView, "backgroundColor", 0x55000000, 0x00000000);
+        objectAnimator.setEvaluator(new ArgbEvaluator());
+        animatorSet.play(objectAnimator);
+
+
+        ObjectAnimator rootViewAnim = ObjectAnimator.ofFloat(rootView, "Y", heightPixels / 2, heightPixels);
+        animatorSet.play(rootViewAnim);
+        animatorSet.setDuration(500);
+        animatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+                rootView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                rootView.setVisibility(View.GONE);
+                window.dismiss();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+                rootView.setVisibility(View.GONE);
+                window.dismiss();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+        animatorSet.start();
     }
 
     /**

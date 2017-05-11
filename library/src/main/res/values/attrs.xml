@@ -47,4 +47,23 @@
     <declare-styleable name="MoreItemLayout">
         <attr name="more_text" format="string"/>
     </declare-styleable>
+    <declare-styleable name="HActionBar">
+        <attr name="title" format="string"/>
+        <attr name="back_text" format="string"/>
+        <attr name="back_is_dissmis" format="boolean"/>
+        <attr name="isShowTitle" format="boolean"/>
+        <attr name="isShowMore" format="boolean"/>
+        <attr name="more_icon" format="reference"/>
+        <attr name="isShowBack" format="boolean"/>
+        <attr name="back_icon" format="reference"/>
+        <attr name="back_icon_gravity">
+            <enum name="LEFT" value="1"/>
+            <enum name="RIGHT" value="2"/>
+            <enum name="TOP" value="3"/>
+            <enum name="BOTTOM" value="4"/>
+        </attr>
+        <attr name="back_icon_drawablePadding" format="dimension"/>
+        <attr name="title_text_color" format="color"/>
+        <attr name="back_text_color" format="color"/>
+    </declare-styleable>
 </resources>

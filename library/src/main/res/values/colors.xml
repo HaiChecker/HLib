@@ -9,4 +9,8 @@
     <color name="test_back_ff0000">#ff0000</color>
     <color name="test_back_ccc">#ccc</color>
     <color name="colorPrimary">#3F51B5</color>
+    <color name="action_bar_title_color">#fefefe</color>
+
+    <color name="white87">#87ffffff</color>
+    <color name="white">#ffffff</color>
 </resources>

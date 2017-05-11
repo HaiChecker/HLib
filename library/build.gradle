@@ -45,7 +45,7 @@ publish {
     userOrg = 'haichecker'
     groupId = 'com.shiwenping'
     artifactId = 'HLibs'
-    publishVersion = '1.4.0-beta'
+    publishVersion = '1.5.0-beta'
     desc = 'this is my android lib'
     website = 'https://github.com/HaiChecker/HLib'
 }
@@ -70,5 +70,7 @@ dependencies {
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     compile 'org.jetbrains:annotations-java5:15.0'
+    //OSS
+    compile 'com.aliyun.dpa:oss-android-sdk:2.3.0'
     compile 'com.android.support:design:25.1.0'
 }

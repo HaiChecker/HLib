@@ -9,6 +9,10 @@
         android:layout_height="match_parent"
         tools:context="com.haichecker.simple.MainActivity">
 
+        <com.haichecker.lib.widget.viewtoast.StateArc
+            android:id="@+id/stateArc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <!--<android.support.v4.view.ViewPager-->
         <!--android:id="@+id/viewPager"-->
@@ -20,10 +24,20 @@
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"/>-->
 
+
+        <com.haichecker.lib.widget.ViewScroll
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
         <com.haichecker.simple.HuaView
             android:id="@+id/huaView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -32,9 +46,9 @@
 
 
             <RelativeLayout
-                android:background="#ff00"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"/>
+                android:layout_height="40dp"
+                android:background="#ff00"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -46,9 +60,9 @@
 
         <com.haichecker.lib.widget.stateview.LodingView
             android:id="@+id/lodingView"
+            android:visibility="gone"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/viewToast"

@@ -3,6 +3,7 @@ package com.haichecker.simple;
 import java.util.List;
 
 import retrofit2.http.GET;
+import retrofit2.http.Part;
 import rx.Observable;
 
 /**
@@ -12,4 +13,7 @@ import rx.Observable;
 public interface HomeService {
     @GET("/Index/getIndexCarouselAds")
     Observable<String> getIndexCarouselAds();
+
+//    @GET("Outsourcing/index.php/Home/Index/upload")
+//    Observable<String> upload(@Part(""))
 }

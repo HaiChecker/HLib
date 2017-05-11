@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="custom_title_layout" type="id"/>
+    <item name="custom_more_layout" type="id"/>
+    <item name="is_del_img" type="id"/>
+</resources>

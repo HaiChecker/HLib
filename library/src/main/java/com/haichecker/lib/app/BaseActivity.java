@@ -1,6 +1,7 @@
 package com.haichecker.lib.app;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.google.common.base.Preconditions;
 import com.haichecker.lib.setting.SettingInstance;
@@ -121,6 +123,14 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
 //        win.setAttributes(winParams);
 //    }
 
+    /**
+     * 获取当前上下文
+     * @return
+     */
+    public Context getContext() {
+        return this;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -157,17 +167,9 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         ((BaseApplication) getApplication()).getAllActivity().add(this);
     }
 
-
-    protected void setTintColor(int color) {
-        // TODO 这儿有问题需要解决，白色问题
-        // 4.4及以上版本开启
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            setTranslucentStatus(true);
-//        }
-
-        if (tintManager != null) {
-            tintManager.setTintColor(color);
-        }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
     }
 
     @Override
@@ -202,9 +204,24 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         ((BaseApplication) getApplication()).getAllActivity().remove(this);
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
+    /**
+     * 隐藏键盘
+     */
+    public void hideInput() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+    }
+
+    protected void setTintColor(int color) {
+        // TODO 这儿有问题需要解决，白色问题
+        // 4.4及以上版本开启
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            setTranslucentStatus(true);
+//        }
+
+        if (tintManager != null) {
+            tintManager.setTintColor(color);
+        }
     }
 
     @Override

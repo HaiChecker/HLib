@@ -7,4 +7,6 @@
         <item name="android:windowExitAnimation">@anim/pophide_anim</item>
         <!-- 指定消失的动画xml -->
     </style>
+
+    <style name="shareDialog_style" parent="@android:style/Theme.Holo.DialogWhenLarge"></style>
 </resources>

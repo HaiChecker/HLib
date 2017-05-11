@@ -6,4 +6,5 @@
     <item name="setting_list_line_r" type="id"/>
     <item name="setting_list_item_dot" type="id"/>
     <item name="setting_list_item_root" type="id"/>
+    <item name="hdialog_line" type="id"/>
 </resources>

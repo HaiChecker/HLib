@@ -129,6 +129,27 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
         return mContext;
     }
 
+    /**
+     * 创建一个消息提示Toast
+     *
+     * @param mContext 上下文，它是运行在所有界面之上，建议使用{@link ViewToast#toast(Context, ViewGroup)}函数
+     * @return 返回Toast对象
+     */
+    public static ViewToast toast(Context mContext) {
+        return ViewToast.createDefalut(mContext).setStyle(STYLE_TEXT);
+    }
+
+    /**
+     * 创建一个消息提示Toast
+     *
+     * @param mContext 上下文
+     * @param rootView Toast显示在这个rootView上面<br/><span color="red">注意:尽量不要使用{@link LinearLayout}</span>
+     * @return 返回当前对象
+     */
+    public static ViewToast toast(Context mContext, ViewGroup rootView) {
+        return ViewToast.createDefalut(mContext, rootView).setStyle(STYLE_TEXT);
+    }
+
     public ViewToast(Context mContext) {
         this.mContext = mContext;
         init();
@@ -212,6 +233,7 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
         show();
         hide(delay);
     }
+
 
     /**
      * 显示
@@ -582,7 +604,7 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
     }
 
     /**
-     * 设置父Ｖｉｅｗ
+     * 设置父View
      *
      * @param parent
      */
@@ -592,12 +614,33 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
     }
 
     /**
-     * 设置类别
+     * 设置类别<br/>不用调用　{@link ViewToast#showProgress()} 和　{@link ViewToast#hideProgress()}
      *
-     * @param style
+     * @param style <br/> {@link Style#STYLE_PROGRESS_BAR} 条形进度，可以设置进度详情;<br/>
+     *              {@link Style#STYLE_PROGRESS_CIR}    圆形进度;<br/>
+     *              {@link Style#STYLE_TEXT}    纯文字
      */
     public ViewToast<T> setStyle(Style style) {
         this.style = style;
+
+        switch (style) {
+            case STYLE_PROGRESS_BAR:
+            case STYLE_PROGRESS_CIR:
+                if (mProgressBarH != null && style == STYLE_PROGRESS_BAR)
+                    mProgressBarH.setVisibility(View.VISIBLE);
+
+                if (mProgressBarO != null && style == STYLE_PROGRESS_CIR)
+                    mProgressBarO.setVisibility(View.VISIBLE);
+                break;
+            case STYLE_TEXT:
+                if (mProgressBarH != null)
+                    mProgressBarH.setVisibility(View.GONE);
+
+                if (mProgressBarO != null)
+                    mProgressBarO.setVisibility(View.GONE);
+                break;
+        }
+
         return this;
     }
 
@@ -658,6 +701,15 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
         return isShowing;
     }
 
+
+    /**
+     * 隐藏进度
+     * <p>
+     * 不被建议函数，建议使用 {@link ViewToast#setStyle(Style)}函数
+     *
+     * @return
+     */
+    @Deprecated
     public ViewToast<T> hideProgress() {
         style = STYLE_TEXT;
         if (mProgressBarH != null)
@@ -668,6 +720,16 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
         return this;
     }
 
+    /**
+     * 显示进度
+     * <p>
+     * 不被建议函数，建议使用 {@link ViewToast#setStyle(Style)}函数
+     * <p>
+     * 可以只用选择显示或者隐藏进度条
+     *
+     * @return
+     */
+    @Deprecated
     public ViewToast<T> showProgress() {
         if (mProgressBarH != null && style == STYLE_PROGRESS_BAR)
             mProgressBarH.setVisibility(View.VISIBLE);
