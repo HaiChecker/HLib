@@ -21,6 +21,7 @@ public abstract class BaseApplication extends MultiDexApplication {
         super.onCreate();
         MultiDex.install(this);
         allActivity = new ArrayList<>();
+        registerActivityLifecycleCallbacks(new BaseActivityLifecycleCallback());
     }
 
     public List<BaseActivity> getAllActivity() {
