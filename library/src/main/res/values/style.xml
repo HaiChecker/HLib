@@ -9,4 +9,10 @@
     </style>
 
     <style name="shareDialog_style" parent="@android:style/Theme.Holo.DialogWhenLarge"></style>
+
+    <style name="HActionBar_Theme">
+        <item name="back_text">返回</item>
+        <item name="line_height">1px</item>
+        <item name="line_color">#e5e5e5</item>
+    </style>
 </resources>

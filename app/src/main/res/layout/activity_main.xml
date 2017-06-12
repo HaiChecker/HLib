@@ -9,6 +9,17 @@
         android:layout_height="match_parent"
         tools:context="com.haichecker.simple.MainActivity">
 
+        <com.haichecker.lib.widget.HActionBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            app:isShowMore="true"
+            app:line_color="#000"
+            app:more_text_color="#000000"
+            app:more_text_str="石文平"
+            app:title="石文平"
+            app:title_text_color="@color/test_back_333"/>
+
         <com.haichecker.lib.widget.viewtoast.StateArc
             android:id="@+id/stateArc"
             android:layout_width="wrap_content"
@@ -29,9 +40,9 @@
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:visibility="gone"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:visibility="gone"/>
 
         <com.haichecker.simple.HuaView
             android:id="@+id/huaView"
@@ -60,9 +71,9 @@
 
         <com.haichecker.lib.widget.stateview.LodingView
             android:id="@+id/lodingView"
-            android:visibility="gone"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/viewToast"

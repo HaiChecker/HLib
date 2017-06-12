@@ -74,7 +74,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     /**
      * 是否开启右滑关闭功能
      */
-    private boolean isOpenRightClose = true;
+    private boolean isOpenRightClose = false;
     /**
      * Y轴的最大差值
      */

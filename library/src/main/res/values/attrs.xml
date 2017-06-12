@@ -49,6 +49,7 @@
     </declare-styleable>
     <declare-styleable name="HActionBar">
         <attr name="title" format="string"/>
+        <attr name="more_text_color" format="color"/>
         <attr name="back_text" format="string"/>
         <attr name="back_is_dissmis" format="boolean"/>
         <attr name="isShowTitle" format="boolean"/>
@@ -65,5 +66,8 @@
         <attr name="back_icon_drawablePadding" format="dimension"/>
         <attr name="title_text_color" format="color"/>
         <attr name="back_text_color" format="color"/>
+        <attr name="line_color" format="color"/>
+        <attr name="more_text_str" format="string"/>
+        <attr name="line_height" format="dimension"/>
     </declare-styleable>
 </resources>

@@ -15,6 +15,7 @@ android {
 
     defaultConfig {
 //        minSdkVersion MIN_SDK_VERSION as int
+//        ./gradlew clean build bintrayUpload -PbintrayUser=HaiChecker -PbintrayKey=1636608d342e01ae762d2541a90fe957539abdc2 -PdryRun=false
         minSdkVersion 9
         targetSdkVersion TARGET_SDK_VERSION as int
         versionCode VERSION_CODE as int
@@ -45,7 +46,7 @@ publish {
     userOrg = 'haichecker'
     groupId = 'com.shiwenping'
     artifactId = 'HLibs'
-    publishVersion = '1.5.0-beta'
+    publishVersion = '1.5.8-beta'
     desc = 'this is my android lib'
     website = 'https://github.com/HaiChecker/HLib'
 }
