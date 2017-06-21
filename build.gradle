@@ -5,17 +5,22 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.0'
-        classpath 'com.novoda:bintray-release:0.3.4'
+        classpath 'com.novoda:bintray-release:0.5.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
 
         // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        // in the individual module build.gradle filesError:Could not download backport-util-concurrent.jar (backport-util-concurrent:backport-util-concurrent:3.1): No cached version available for offline mode
     }
 }
 
 allprojects {
     repositories {
         jcenter()
+    }
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
+        options.addStringOption('charSet', 'UTF-8')
     }
 }
 

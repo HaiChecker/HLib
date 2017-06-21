@@ -100,10 +100,21 @@ public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> exte
         if (viewType == EMPTY) {
             return (VH) new EmptyViewHodler(emptyView);
         }
-        return null;
+        return onBaseCreateViewHolder(parent, viewType);
     }
 
+    /**
+     * 由于使用了空布局，需要实现此函数，效果和{@link BaseHeaderAdapter#onCreateViewHolder(ViewGroup, int)}效果一样
+     *
+     * @param parent   父布局
+     * @param viewType viewType
+     * @return 返回
+     */
+    public abstract VH onBaseCreateViewHolder(ViewGroup parent, int viewType);
+
+
     @Override
+
     public int getItemCount() {
         if (isEmpty())
             return 1;
@@ -185,8 +196,7 @@ public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> exte
     }
 
 
-
-    private class EmptyViewHodler extends RecyclerView.ViewHolder{
+    private class EmptyViewHodler extends RecyclerView.ViewHolder {
 
         public EmptyViewHodler(View itemView) {
             super(itemView);

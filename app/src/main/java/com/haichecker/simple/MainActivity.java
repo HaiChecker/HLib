@@ -56,6 +56,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             public void onBindViewHolder(RecyclerView.ViewHolder holder, int contentIndex, int headerIndex, boolean isHeader, int countPosition) {
 
             }
+
+            @Override
+            public RecyclerView.ViewHolder onBaseCreateViewHolder(ViewGroup parent, int viewType) {
+                return new RecyclerView.ViewHolder(new Button(getContext())) {
+                };
+            }
+
         };
         headerAdapter.setEmptyView(R.layout.fragment_blank, databinding.recycler);
         databinding.recycler.setAdapter(headerAdapter);

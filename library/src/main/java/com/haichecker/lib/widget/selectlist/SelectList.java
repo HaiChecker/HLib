@@ -186,7 +186,7 @@ public class SelectList<A extends BaseSelectAdapter> {
     public void show() {
         window.showAtLocation(root, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         AnimatorSet animatorSet = new AnimatorSet();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofArgb(backgundView, "backgroundColor", 0x00000000, 0x55000000);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(backgundView, "backgroundColor", 0x36000000, 0x00000000);
         objectAnimator.setEvaluator(new ArgbEvaluator());
         animatorSet.play(objectAnimator);
 
@@ -233,7 +233,7 @@ public class SelectList<A extends BaseSelectAdapter> {
      */
     public void dismiss() {
         AnimatorSet animatorSet = new AnimatorSet();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofArgb(backgundView, "backgroundColor", 0x55000000, 0x00000000);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(backgundView, "backgroundColor", 0x55000000, 0x00000000);
         objectAnimator.setEvaluator(new ArgbEvaluator());
         animatorSet.play(objectAnimator);
 

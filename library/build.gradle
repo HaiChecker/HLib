@@ -46,7 +46,7 @@ publish {
     userOrg = 'haichecker'
     groupId = 'com.shiwenping'
     artifactId = 'HLibs'
-    publishVersion = '1.5.8-beta'
+    publishVersion = '1.6.0-beta'
     desc = 'this is my android lib'
     website = 'https://github.com/HaiChecker/HLib'
 }
@@ -58,20 +58,20 @@ dependencies {
     })
     compile "com.android.support:appcompat-v7:${SUPPORT_V7_VERSION}"
     androidTestCompile "com.android.support:appcompat-v7:${SUPPORT_V7_VERSION}"
-    androidTestCompile "com.android.support:recyclerview-v7:25.1.0"
+    androidTestCompile "com.android.support:recyclerview-v7:25.3.1"
     compile "com.google.guava:guava:${GUAVA_VERSION}"
     androidTestCompile "junit:junit:${JUNIT_VERSION}"
     androidTestCompile "com.google.truth:truth:${TRUTH_VERSION}"
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'io.reactivex:rxjava:1.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
+    compile 'io.reactivex:rxjava:1.1.5'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.google.dagger:dagger:2.0'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'org.jetbrains:annotations-java5:15.0'
     //OSS
     compile 'com.aliyun.dpa:oss-android-sdk:2.3.0'
-    compile 'com.android.support:design:25.1.0'
+    compile 'com.android.support:design:25.3.1'
 }

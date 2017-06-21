@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Hlib.iml" filepath="$PROJECT_DIR$/Hlib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/HLib.iml" filepath="$PROJECT_DIR$/.idea/HLib.iml" />
+      <module fileurl="file://L:\Android\HLib\Hlib.iml" filepath="L:\Android\HLib\Hlib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/hlibrary.iml" filepath="$PROJECT_DIR$/library/hlibrary.iml" />
     </modules>
