@@ -3,6 +3,8 @@ package com.haichecker.simple;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.haichecker.lib.app.BaseActivity;
+import com.haichecker.lib.widget.BaseHeaderAdapter;
 import com.haichecker.lib.widget.ViewScroll;
 import com.haichecker.lib.widget.dialog.hdialog.HDialog;
 import com.haichecker.lib.widget.dialog.hdialog.HDialogAdapter;
@@ -34,6 +37,30 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        databinding.recycler.setLayoutManager(new LinearLayoutManager(this));
+        BaseHeaderAdapter headerAdapter = new BaseHeaderAdapter() {
+            @Override
+            public int headerCount() {
+                return 0;
+            }
+
+            @Override
+            public int count(int hIndex) {
+                return 0;
+            }
+
+
+            @Override
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int contentIndex, int headerIndex, boolean isHeader, int countPosition) {
+
+            }
+        };
+        headerAdapter.setEmptyView(R.layout.fragment_blank, databinding.recycler);
+        databinding.recycler.setAdapter(headerAdapter);
+
+
         selectAdapterSelectList = new SelectList<>(this, databinding.getRoot());
 
         selectAdapterSelectList.add("请选择", new BaseSelectAdapter<BaseBeen>(this, R.layout.select_list_item) {

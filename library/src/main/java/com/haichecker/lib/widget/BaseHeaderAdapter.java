@@ -1,6 +1,10 @@
 package com.haichecker.lib.widget;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseIntArray;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,27 +15,47 @@ import java.util.HashMap;
 
 public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
+    //空View
+    private View emptyView;
+
+    public void setEmptyView(View emptyView) {
+        this.emptyView = emptyView;
+        update().notifyDataSetChanged();
+    }
+
+    /**
+     * 通过资源设置
+     *
+     * @param emptyLayout 空布局的资源
+     * @param viewGroup   他的父布局
+     */
+    public void setEmptyView(int emptyLayout, ViewGroup viewGroup) {
+        this.emptyView = LayoutInflater.from(viewGroup.getContext()).inflate(emptyLayout, viewGroup, false);
+        update().notifyDataSetChanged();
+    }
 
     private ArrayList<ArrayList<Integer>> headerList = new ArrayList<>();
-    private HashMap<Integer, Integer> headerIndexHash = new HashMap<>();
+    //    private HashMap<Integer, Integer> headerIndexHash = new HashMap<>();
+    private SparseIntArray sparseIntArray = new SparseIntArray();
     private int count = 0;
 
     public static final int HEADER = 2;
     public static final int CONTENT = 1;
+    public static final int EMPTY = 3;
 
 
     public BaseHeaderAdapter<VH> update() {
         count = 0;
-        headerIndexHash.clear();
+        sparseIntArray.clear();
         int hi = 0;
         headerList.clear();
         for (int i = 0; i < headerCount(); i++) {
-            headerIndexHash.put(hi, i);
+            sparseIntArray.put(hi, i);
             hi++;
             ArrayList<Integer> countList = new ArrayList<>();
 
             for (int i1 = 0; i1 < count(i); i1++) {
-                headerIndexHash.put(hi, i);
+                sparseIntArray.put(hi, i);
                 hi++;
                 countList.add(i1);
             }
@@ -72,12 +96,28 @@ public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> exte
 
 
     @Override
+    public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == EMPTY) {
+            return (VH) new EmptyViewHodler(emptyView);
+        }
+        return null;
+    }
+
+    @Override
     public int getItemCount() {
+        if (isEmpty())
+            return 1;
         return count;
+    }
+
+    private boolean isEmpty() {
+        return count == 0 && emptyView != null;
     }
 
     @Override
     public int getItemViewType(int position) {
+        if (isEmpty())
+            return EMPTY;
         if (isHeader(position))
             return HEADER;
         return CONTENT;
@@ -85,6 +125,11 @@ public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> exte
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
+        if (isEmpty()) {
+            //设置空布局为MATCH_PARENT
+            holder.itemView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            return;
+        }
         onBindViewHolder(holder, getHeaderContentIndex(position), getHeaderIndex(position), isHeader(position), position);
     }
 
@@ -113,18 +158,18 @@ public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> exte
      * 获取当前下标的头部索引
      *
      * @param p 当前坐标
-     * @return
+     * @return 返回当前下表的头部
      */
     public int getHeaderIndex(int p) {
-        return headerIndexHash.get(p);
+        return sparseIntArray.get(p);
     }
 
 
     /**
      * 通过头部，获取里面的内容下标
      *
-     * @param p
-     * @return
+     * @param p 当前坐标
+     * @return 通过头部，获取里面的内容下标
      */
     private int getHeaderContentIndex(int p) {
         int countP = 0;
@@ -138,4 +183,14 @@ public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> exte
         }
         return -1;
     }
+
+
+
+    private class EmptyViewHodler extends RecyclerView.ViewHolder{
+
+        public EmptyViewHodler(View itemView) {
+            super(itemView);
+        }
+    }
+
 }
