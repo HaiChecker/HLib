@@ -2,72 +2,82 @@
 <resources>
     <declare-styleable name="HButton">
         <!--按下的图片-->
-        <attr name="touch_down_drawble" format="color|reference"/>
+        <attr name="touch_down_drawble" format="color|reference" />
         <!--弹起的图片-->
-        <attr name="touch_up_drawble" format="color|reference"/>
+        <attr name="touch_up_drawble" format="color|reference" />
         <!--按下的文字颜色-->
-        <attr name="touch_down_text" format="color"/>
+        <attr name="touch_down_text" format="color" />
         <!--弹起的文字颜色-->
-        <attr name="touch_up_text" format="color"/>
+        <attr name="touch_up_text" format="color" />
         <!--选中的颜色-->
-        <attr name="selected_text_color" format="color"/>
+        <attr name="selected_text_color" format="color" />
     </declare-styleable>
 
 
     <declare-styleable name="SettingList">
-        <attr name="data_list" format="reference"/>
+        <attr name="data_list" format="reference" />
     </declare-styleable>
     <declare-styleable name="StateViewLayout">
-        <attr name="state_show" format="boolean"/>
+        <attr name="state_show" format="boolean" />
     </declare-styleable>
     <declare-styleable name="DefalutItemLayout">
-        <attr name="title_text" format="string"/>
-        <attr name="title_color" format="color"/>
-        <attr name="isDot" format="boolean"/>
-        <attr name="title_margin_left" format="integer"/>
-        <attr name="bottom_margin_left" format="integer"/>
-        <attr name="top_margin_left" format="integer"/>
-        <attr name="isTopLine" format="boolean"/>
-        <attr name="isBottomLine" format="boolean"/>
-        <attr name="lineColor" format="color"/>
-        <attr name="titleSize" format="integer"/>
-        <attr name="detailText" format="string"/>
+        <attr name="title_text" format="string" />
+        <attr name="title_color" format="color" />
+        <attr name="isDot" format="boolean" />
+        <attr name="title_margin_left" format="integer" />
+        <attr name="bottom_margin_left" format="integer" />
+        <attr name="top_margin_left" format="integer" />
+        <attr name="isTopLine" format="boolean" />
+        <attr name="isBottomLine" format="boolean" />
+        <attr name="lineColor" format="color" />
+        <attr name="titleSize" format="integer" />
+        <attr name="detailText" format="string" />
     </declare-styleable>
     <declare-styleable name="EditItemLayout">
-        <attr name="none_text" format="string"/>
-        <attr name="none_hide" format="string"/>
-        <attr name="edit_text" format="string"/>
-        <attr name="edit_hide" format="string"/>
-        <attr name="edit_text_size" format="integer"/>
+        <attr name="none_text" format="string" />
+        <attr name="none_hide" format="string" />
+        <attr name="edit_text" format="string" />
+        <attr name="edit_hide" format="string" />
+        <attr name="edit_text_size" format="integer" />
         <attr name="edit_gravity" format="integer">
-            <enum name="left" value="3"/>
-            <enum name="right" value="5"/>
+            <enum name="left" value="3" />
+            <enum name="right" value="5" />
         </attr>
     </declare-styleable>
     <declare-styleable name="MoreItemLayout">
-        <attr name="more_text" format="string"/>
+        <attr name="more_text" format="string" />
     </declare-styleable>
     <declare-styleable name="HActionBar">
-        <attr name="title" format="string"/>
-        <attr name="more_text_color" format="color"/>
-        <attr name="back_text" format="string"/>
-        <attr name="back_is_dissmis" format="boolean"/>
-        <attr name="isShowTitle" format="boolean"/>
-        <attr name="isShowMore" format="boolean"/>
-        <attr name="more_icon" format="reference"/>
-        <attr name="isShowBack" format="boolean"/>
-        <attr name="back_icon" format="reference"/>
+        <attr name="title" format="string" />
+        <attr name="more_text_color" format="color" />
+        <attr name="back_text" format="string" />
+        <attr name="back_is_dissmis" format="boolean" />
+        <attr name="isShowTitle" format="boolean" />
+        <attr name="isShowMore" format="boolean" />
+        <attr name="more_icon" format="reference" />
+        <attr name="isShowBack" format="boolean" />
+        <attr name="back_icon" format="reference" />
         <attr name="back_icon_gravity">
-            <enum name="LEFT" value="1"/>
-            <enum name="RIGHT" value="2"/>
-            <enum name="TOP" value="3"/>
-            <enum name="BOTTOM" value="4"/>
+            <enum name="LEFT" value="1" />
+            <enum name="RIGHT" value="2" />
+            <enum name="TOP" value="3" />
+            <enum name="BOTTOM" value="4" />
         </attr>
-        <attr name="back_icon_drawablePadding" format="dimension"/>
-        <attr name="title_text_color" format="color"/>
-        <attr name="back_text_color" format="color"/>
-        <attr name="line_color" format="color"/>
-        <attr name="more_text_str" format="string"/>
-        <attr name="line_height" format="dimension"/>
+        <attr name="back_icon_drawablePadding" format="dimension" />
+        <attr name="title_text_color" format="color" />
+        <attr name="back_text_color" format="color" />
+        <attr name="line_color" format="color" />
+        <attr name="more_text_str" format="string" />
+        <attr name="line_height" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="BaseCell">
+        <attr name="text" format="string" />
+        <attr name="detail_text" format="string" />
+        <attr name="cell_style">
+            <enum name="DEFALUT" value="1" />
+            <enum name="VALUE1" value="2" />
+            <enum name="VALUE2" value="3" />
+            <enum name="SUBTITLE" value="4" />
+        </attr>
     </declare-styleable>
 </resources>

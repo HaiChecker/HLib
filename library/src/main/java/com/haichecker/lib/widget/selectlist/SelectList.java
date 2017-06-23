@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.ColorInt;
@@ -183,6 +184,7 @@ public class SelectList<A extends BaseSelectAdapter> {
     /**
      * 显示
      */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void show() {
         window.showAtLocation(root, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         AnimatorSet animatorSet = new AnimatorSet();
@@ -231,6 +233,7 @@ public class SelectList<A extends BaseSelectAdapter> {
     /**
      * 关闭
      */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void dismiss() {
         AnimatorSet animatorSet = new AnimatorSet();
         ObjectAnimator objectAnimator = ObjectAnimator.ofInt(backgundView, "backgroundColor", 0x55000000, 0x00000000);
@@ -299,10 +302,10 @@ public class SelectList<A extends BaseSelectAdapter> {
     /**
      * 设置
      *
-     * @param title
-     * @param data
-     * @param groupId
-     * @param isSetCurrentItem
+     * @param title 标题
+     * @param data  数据
+     * @param groupId   第几项
+     * @param isSetCurrentItem  是否设置为选中
      * @param <T>
      */
     public <T extends BaseBeen> void set(String title, ArrayList<T> data, int groupId, boolean isSetCurrentItem) {

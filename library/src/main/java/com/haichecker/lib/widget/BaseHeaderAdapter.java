@@ -14,10 +14,86 @@ import java.util.HashMap;
  */
 
 public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
+    private RecyclerView.AdapterDataObserver adapterDataObserver = new RecyclerView.AdapterDataObserver() {
+        @Override
+        public void onChanged() {
+            super.onChanged();
+            update();
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount) {
+            super.onItemRangeChanged(positionStart, itemCount);
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
+            super.onItemRangeChanged(positionStart, itemCount, payload);
+        }
+
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            super.onItemRangeInserted(positionStart, itemCount);
+        }
+
+        @Override
+        public void onItemRangeRemoved(int positionStart, int itemCount) {
+            super.onItemRangeRemoved(positionStart, itemCount);
+        }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            super.onItemRangeMoved(fromPosition, toPosition, itemCount);
+        }
+    };
+
+    /**
+     * 注册数据源改变回调
+     */
+    public void reg() {
+        registerAdapterDataObserver(adapterDataObserver);
+    }
+
+    /**
+     * 卸载
+     */
+    public void unreg() {
+        unregisterAdapterDataObserver(adapterDataObserver);
+    }
+
+    public BaseHeaderAdapter() {
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        update();
+        reg();
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        unreg();
+    }
 
     //空View
     private View emptyView;
+    private ArrayList<ArrayList<Integer>> headerList = new ArrayList<>();
+    private SparseIntArray sparseIntArray = new SparseIntArray();
+    //用于记录所有Item的总数，包括Header
+    private int count = 0;
 
+    public static final int HEADER = 2;
+    public static final int CONTENT = 1;
+    private static final int EMPTY = 3;
+
+    /**
+     * 设置空数据布局
+     *
+     * @param emptyView 空数据View
+     */
     public void setEmptyView(View emptyView) {
         this.emptyView = emptyView;
         update().notifyDataSetChanged();
@@ -34,16 +110,12 @@ public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> exte
         update().notifyDataSetChanged();
     }
 
-    private ArrayList<ArrayList<Integer>> headerList = new ArrayList<>();
-    //    private HashMap<Integer, Integer> headerIndexHash = new HashMap<>();
-    private SparseIntArray sparseIntArray = new SparseIntArray();
-    private int count = 0;
 
-    public static final int HEADER = 2;
-    public static final int CONTENT = 1;
-    public static final int EMPTY = 3;
-
-
+    /**
+     * 更新Header，如数据改变必须调用此函数
+     *
+     * @return 返回当前对象用于后续操作
+     */
     public BaseHeaderAdapter<VH> update() {
         count = 0;
         sparseIntArray.clear();
@@ -121,7 +193,7 @@ public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> exte
         return count;
     }
 
-    private boolean isEmpty() {
+    public boolean isEmpty() {
         return count == 0 && emptyView != null;
     }
 
@@ -196,9 +268,17 @@ public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> exte
     }
 
 
+    /**
+     * 空数据ViewHodler
+     */
     private class EmptyViewHodler extends RecyclerView.ViewHolder {
 
-        public EmptyViewHodler(View itemView) {
+        /**
+         * 空数据构造函数
+         *
+         * @param itemView 空数据View
+         */
+        EmptyViewHodler(View itemView) {
             super(itemView);
         }
     }

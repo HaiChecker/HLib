@@ -1,97 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.haichecker.simple.MainActivity">
 
-        <com.haichecker.lib.widget.HActionBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            app:isShowMore="true"
-            app:line_color="#000"
-            app:more_text_color="#000000"
-            app:more_text_str="石文平"
-            app:title="石文平"
-            app:title_text_color="@color/test_back_333"/>
-
-        <com.haichecker.lib.widget.viewtoast.StateArc
-            android:id="@+id/stateArc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <!--<android.support.v4.view.ViewPager-->
-        <!--android:id="@+id/viewPager"-->
-        <!--android:visibility="gone"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"/>-->
-
-        <!--<com.haichecker.lib.widget.settinglist.SettingList-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"/>-->
-
-
-        <com.haichecker.lib.widget.ViewScroll
-            android:id="@+id/scrollView"
+        <com.haichecker.lib.widget.tableview.item.BaseCell
+            android:id="@+id/table_view_test"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:visibility="gone"/>
-
-        <com.haichecker.simple.HuaView
-            android:id="@+id/huaView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/colorAccent"/>
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="#ff00"/>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
-                />
-        </com.haichecker.simple.HuaView>
-
-
-        <com.haichecker.lib.widget.stateview.LodingView
-            android:id="@+id/lodingView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-            <Button
-                android:id="@+id/viewToast"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ViewToast"/>
-
-            <com.haichecker.lib.widget.viewtoast.StateArc
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/viewToast"/>
-        </com.haichecker.lib.widget.stateview.LodingView>
-
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:background="#fff"
+            app:cell_style="DEFALUT"
+            app:text="TableView测试" />
 
     </RelativeLayout>
 
