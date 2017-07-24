@@ -47,6 +47,7 @@ public class HActionBar extends RelativeLayout {
     private int backIconGravity;
     private int backTextColor, titleTextColor;
     private float backIconDrawablePadding;
+    private int title_text_size;
     private int lineColor = Color.parseColor("#e5e5e5");
     private int moreTextColor = Color.parseColor("#333333");
     private int lineHeight = 1;
@@ -79,12 +80,13 @@ public class HActionBar extends RelativeLayout {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.HActionBar);
         title = array.getString(R.styleable.HActionBar_title);
         backText = array.getString(R.styleable.HActionBar_back_text);
-        moreTextColor = array.getColor(R.styleable.HActionBar_more_text_color,Color.parseColor("#333333"));
+        moreTextColor = array.getColor(R.styleable.HActionBar_more_text_color, Color.parseColor("#333333"));
         isBackDissmis = array.getBoolean(R.styleable.HActionBar_back_is_dissmis, true);
         isShowBack = array.getBoolean(R.styleable.HActionBar_isShowBack, true);
         isShowMore = array.getBoolean(R.styleable.HActionBar_isShowMore, false);
         moreDrawable = array.getDrawable(R.styleable.HActionBar_more_icon);
         isShowTitle = array.getBoolean(R.styleable.HActionBar_isShowTitle, true);
+        title_text_size = array.getDimensionPixelOffset(R.styleable.HActionBar_title_text_size, 16);
         moreText = array.getString(R.styleable.HActionBar_more_text_str);
         backIcon = array.getDrawable(R.styleable.HActionBar_back_icon);
         backIconGravity = array.getInt(R.styleable.HActionBar_back_icon_gravity, 1);
@@ -190,15 +192,16 @@ public class HActionBar extends RelativeLayout {
                 backIconGravity == 4 ? backIcon : null
         );
         getBackView().setCompoundDrawablePadding((int) backIconDrawablePadding);
-        getMore().setVisibility(isShowMore ? VISIBLE : GONE);
+        getMore().setVisibility(isShowMore ? VISIBLE : INVISIBLE);
         getMore().setText(moreText);
         getMore().setTextColor(moreTextColor);
         getMore().setCompoundDrawablesWithIntrinsicBounds(moreDrawable, null, null, null);
         getTitleView().setTextColor(titleTextColor);
         getTitleView().setText(title);
+        getTitleView().setTextSize(title_text_size);
         getBackView().setTextColor(backTextColor);
-        getTitleView().setVisibility(isShowTitle ? VISIBLE : GONE);
-        getBackView().setVisibility(isShowBack ? VISIBLE : GONE);
+        getTitleView().setVisibility(isShowTitle ? VISIBLE : INVISIBLE);
+        getBackView().setVisibility(isShowBack ? VISIBLE : INVISIBLE);
         lineView.setBackgroundColor(lineColor);
         lineView.getLayoutParams().height = lineHeight;
     }

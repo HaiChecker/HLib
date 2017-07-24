@@ -16,6 +16,15 @@
             app:cell_style="DEFALUT"
             app:text="TableView测试" />
 
+        <com.haichecker.lib.widget.tableview.item.BaseCell
+            android:id="@+id/toast_test"
+            android:layout_below="@+id/table_view_test"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#fff"
+            app:cell_style="DEFALUT"
+            app:text="Toast测试" />
+
     </RelativeLayout>
 
 </layout>

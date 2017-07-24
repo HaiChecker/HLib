@@ -22,6 +22,10 @@ import com.haichecker.lib.widget.dialog.hdialog.OnHDialogListener;
 import com.haichecker.lib.widget.selectlist.SelectList;
 import com.haichecker.lib.widget.selectlist.adapter.BaseSelectAdapter;
 import com.haichecker.lib.widget.selectlist.been.BaseBeen;
+import com.haichecker.lib.widget.viewtoast.DToast;
+import com.haichecker.lib.widget.viewtoast.DetalutToast;
+import com.haichecker.lib.widget.viewtoast.Style;
+import com.haichecker.lib.widget.viewtoast.Toasts;
 import com.haichecker.lib.widget.viewtoast.ViewToast;
 import com.haichecker.simple.databinding.ActivityMainBinding;
 import com.haichecker.simple.v.activity.TableViewTestActivity;
@@ -31,18 +35,25 @@ import java.util.List;
 
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
-    ViewToast toast;
     List<String> data = new ArrayList<>();
     SelectList<BaseSelectAdapter<BaseBeen>> selectAdapterSelectList;
+    private Toasts detalutToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        detalutToast = Toasts.create((ViewGroup) databinding.getRoot(), new DToast(this));
         databinding.tableViewTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 TableViewTestActivity.startTableViewTest(getContext());
+            }
+        });
+        databinding.toastTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                detalutToast.setStyle(Style.STYLE_PROGRESS_CIR);
+                detalutToast.show(1000, null);
             }
         });
 //        databinding.recycler.setLayoutManager(new LinearLayoutManager(this));
@@ -175,11 +186,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     @Override
     public void onBackPressed() {
-        if (toast.isShowing()) {
-            toast.hide();
-        } else {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
     }
 
     @Override

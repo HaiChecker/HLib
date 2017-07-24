@@ -71,17 +71,17 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
         setEmptyView(tempEmptyView);
     }
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            if (emptyIsShow) {
-                openEmptyView();
-            } else {
-                dismissEmptyView();
-            }
-        }
-    }
+//    @Override
+//    public void onHiddenChanged(boolean hidden) {
+//        super.onHiddenChanged(hidden);
+//        if (!hidden) {
+//            if (emptyIsShow) {
+//                openEmptyView();
+//            } else {
+//                dismissEmptyView();
+//            }
+//        }
+//    }
 
 
     /**
@@ -116,10 +116,9 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
             emptyIsShow = true;
             return;
         }
-        Preconditions.checkNotNull(rootViewGroup);
-        Preconditions.checkNotNull(emptyView);
-        Preconditions.checkNotNull(userView);
-
+        if (rootViewGroup == null || emptyView == null || userView == null) {
+            return;
+        }
         rootViewGroup.addView(emptyView, new WindowManager.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT));
         userView.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
@@ -133,7 +132,6 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
      * @return 当前状态布局
      */
     public View getEmptyView() {
-        Preconditions.checkNotNull(emptyView);
         return emptyView;
     }
 
@@ -155,9 +153,15 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
             emptyIsShow = false;
             return;
         }
-        Preconditions.checkNotNull(rootViewGroup).removeView(emptyView);
-        Preconditions.checkNotNull(emptyView).setVisibility(View.GONE);
-        Preconditions.checkNotNull(userView).setVisibility(View.VISIBLE);
+        if (rootViewGroup != null) {
+            rootViewGroup.removeView(emptyView);
+        }
+        if (emptyView != null) {
+            emptyView.setVisibility(View.GONE);
+        }
+        if (userView != null) {
+            userView.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -204,19 +208,19 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         init();
-        fragmentBinding = DataBindingUtil.inflate(inflater, getLayoutRes(), rootViewGroup, false);
+        fragmentBinding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false);
         userView = fragmentBinding.getRoot();
 //        userView = inflater.inflate(getLayoutRes(), container, false);
 //        fragmentBinding = DataBindingUtil.bind(userView);
         // TODO 添加状态，在ViewPager下无界面
-        Preconditions.checkNotNull(rootViewGroup);
-        Preconditions.checkNotNull(userView);
-//
-        rootViewGroup.addView(userView);
-        if (emptyView != null) {
-            emptyView.setVisibility(View.GONE);
-            rootViewGroup.addView(emptyView);
-        }
+//        Preconditions.checkNotNull(rootViewGroup);
+//        Preconditions.checkNotNull(userView);
+////
+//        rootViewGroup.addView(userView);
+//        if (emptyView != null) {
+//            emptyView.setVisibility(View.GONE);
+//            rootViewGroup.addView(emptyView);
+//        }
         return userView;
     }
 
