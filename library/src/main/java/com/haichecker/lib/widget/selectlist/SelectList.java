@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.ColorInt;
@@ -83,6 +84,15 @@ public class SelectList<A extends BaseSelectAdapter> {
      */
     public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
         this.onItemLongClickListener = onItemLongClickListener;
+    }
+
+    /**
+     * 获取顶部
+     *
+     * @return TabLayout
+     */
+    public TabLayout getTabLayout() {
+        return tabLayout;
     }
 
     /**
@@ -183,6 +193,7 @@ public class SelectList<A extends BaseSelectAdapter> {
     /**
      * 显示
      */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void show() {
         window.showAtLocation(root, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         AnimatorSet animatorSet = new AnimatorSet();
@@ -190,10 +201,9 @@ public class SelectList<A extends BaseSelectAdapter> {
         objectAnimator.setEvaluator(new ArgbEvaluator());
         animatorSet.play(objectAnimator);
 
-
-        ObjectAnimator rootViewAnim = ObjectAnimator.ofFloat(rootView, "Y", heightPixels, heightPixels / 2);
+        ObjectAnimator rootViewAnim = ObjectAnimator.ofFloat(rootView, "Y", heightPixels, heightPixels / 2 - DensityUtil.dip_px(21, mContext.getResources().getDisplayMetrics().density));
         animatorSet.play(rootViewAnim);
-        animatorSet.setDuration(500);
+        animatorSet.setDuration(300);
         animatorSet.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
@@ -231,6 +241,7 @@ public class SelectList<A extends BaseSelectAdapter> {
     /**
      * 关闭
      */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void dismiss() {
         AnimatorSet animatorSet = new AnimatorSet();
         ObjectAnimator objectAnimator = ObjectAnimator.ofArgb(backgundView, "backgroundColor", 0x55000000, 0x00000000);
@@ -238,7 +249,7 @@ public class SelectList<A extends BaseSelectAdapter> {
         animatorSet.play(objectAnimator);
 
 
-        ObjectAnimator rootViewAnim = ObjectAnimator.ofFloat(rootView, "Y", heightPixels / 2, heightPixels);
+        ObjectAnimator rootViewAnim = ObjectAnimator.ofFloat(rootView, "Y", heightPixels / 2 - DensityUtil.dip_px(21, mContext.getResources().getDisplayMetrics().density), heightPixels);
         animatorSet.play(rootViewAnim);
         animatorSet.setDuration(500);
         animatorSet.addListener(new Animator.AnimatorListener() {
