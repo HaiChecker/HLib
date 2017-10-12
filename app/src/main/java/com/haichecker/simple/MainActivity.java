@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatPreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        detalutToast = Toasts.create((ViewGroup) databinding.getRoot(), new DToast(this));
+        detalutToast = Toasts.create(this, new DToast(this));
         addPreferencesFromResource(R.xml.main);
 
 
