@@ -23,8 +23,13 @@ import com.haichecker.lib.widget.dialog.hdialog.OnHDialogListener;
 import com.haichecker.lib.widget.selectlist.SelectList;
 import com.haichecker.lib.widget.selectlist.adapter.BaseSelectAdapter;
 import com.haichecker.lib.widget.selectlist.been.BaseBeen;
+import com.haichecker.lib.widget.viewtoast.DToast;
+import com.haichecker.lib.widget.viewtoast.DetalutToast;
+import com.haichecker.lib.widget.viewtoast.Style;
+import com.haichecker.lib.widget.viewtoast.Toasts;
 import com.haichecker.lib.widget.viewtoast.ViewToast;
 import com.haichecker.simple.databinding.ActivityMainBinding;
+import com.haichecker.simple.v.activity.TableViewTestActivity;
 import com.haichecker.simple.test.selectlist_test.SelectListTestActivity;
 
 import java.util.ArrayList;
@@ -32,10 +37,11 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatPreferenceActivity {
-
+    private Toasts detalutToast;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        detalutToast = Toasts.create(this, new DToast(this));
         addPreferencesFromResource(R.xml.main);
 
 
@@ -46,6 +52,16 @@ public class MainActivity extends AppCompatPreferenceActivity {
                 return false;
             }
         });
+//        findPreference("select_list").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+//            @Override
+//            public boolean onPreferenceClick(Preference preference) {
+//                TableViewTestActivity.startTableViewTest(MainActivity.this);
+//                return false;
+//            }
+//        });
+//
+//        detalutToast.setStyle(Style.STYLE_PROGRESS_CIR);
+//        detalutToast.show(1000, null);
 
 //        R.layout.activity_main
 

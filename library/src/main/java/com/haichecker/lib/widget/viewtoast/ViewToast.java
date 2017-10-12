@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -113,8 +114,10 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
      * 显示时长
      */
     public static final int LONG = 0x1;
-
+    //是否显示中
     private boolean isShowing = false;
+    //背景是否可以点击
+    private boolean isBackgound = false;
     //显示动画
     ObjectAnimator objectAnimator;
     //关闭动画
@@ -234,6 +237,36 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
         hide(delay);
     }
 
+    /**
+     * 可以点击背景以后的东西，默认不可点击
+     *
+     * @return 返回当前对象
+     */
+    public ViewToast clickBackgound() {
+        isBackgound = true;
+        if (mView == null || mView.findViewById(R.id.test) == null)
+            return this;
+        mView.findViewById(R.id.test).setOnClickListener(null);
+        return this;
+    }
+
+    /**
+     * 不可以点击背景以后的东西
+     *
+     * @return 返回当前对象
+     */
+    public ViewToast clickNotBackgound() {
+        isBackgound = false;
+        if (mView == null || mView.findViewById(R.id.test) == null)
+            return this;
+        mView.findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        return this;
+    }
 
     /**
      * 显示
@@ -242,11 +275,11 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
         if (isShowing)
             return;
         isShowing = true;
-        mView.findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
+        mView.findViewById(R.id.test).setOnClickListener(isBackgound ? new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             }
-        });
+        } : null);
         //修改状态
         changeStyle();
         if (isParent) {
@@ -303,6 +336,7 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
     /**
      * 无延迟关闭
      */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void hide() {
         //动画组合对象
         AnimatorSet set = new AnimatorSet();
@@ -385,6 +419,7 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
      * <p>  不被建议函数 </p>
      * {@link ViewToast#hide()}
      */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Deprecated
     public void dissmiss() {
         AnimatorSet set = new AnimatorSet();

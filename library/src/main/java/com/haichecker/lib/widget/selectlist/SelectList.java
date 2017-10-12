@@ -197,7 +197,7 @@ public class SelectList<A extends BaseSelectAdapter> {
     public void show() {
         window.showAtLocation(root, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         AnimatorSet animatorSet = new AnimatorSet();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofArgb(backgundView, "backgroundColor", 0x00000000, 0x55000000);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(backgundView, "backgroundColor", 0x36000000, 0x00000000);
         objectAnimator.setEvaluator(new ArgbEvaluator());
         animatorSet.play(objectAnimator);
 
@@ -244,7 +244,7 @@ public class SelectList<A extends BaseSelectAdapter> {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void dismiss() {
         AnimatorSet animatorSet = new AnimatorSet();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofArgb(backgundView, "backgroundColor", 0x55000000, 0x00000000);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(backgundView, "backgroundColor", 0x55000000, 0x00000000);
         objectAnimator.setEvaluator(new ArgbEvaluator());
         animatorSet.play(objectAnimator);
 
@@ -310,10 +310,10 @@ public class SelectList<A extends BaseSelectAdapter> {
     /**
      * 设置
      *
-     * @param title
-     * @param data
-     * @param groupId
-     * @param isSetCurrentItem
+     * @param title 标题
+     * @param data  数据
+     * @param groupId   第几项
+     * @param isSetCurrentItem  是否设置为选中
      * @param <T>
      */
     public <T extends BaseBeen> void set(String title, ArrayList<T> data, int groupId, boolean isSetCurrentItem) {
