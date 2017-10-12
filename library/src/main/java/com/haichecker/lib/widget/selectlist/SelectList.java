@@ -87,6 +87,15 @@ public class SelectList<A extends BaseSelectAdapter> {
     }
 
     /**
+     * 获取顶部
+     *
+     * @return TabLayout
+     */
+    public TabLayout getTabLayout() {
+        return tabLayout;
+    }
+
+    /**
      * 获取选项总数
      *
      * @return 选项总数
@@ -192,10 +201,9 @@ public class SelectList<A extends BaseSelectAdapter> {
         objectAnimator.setEvaluator(new ArgbEvaluator());
         animatorSet.play(objectAnimator);
 
-
-        ObjectAnimator rootViewAnim = ObjectAnimator.ofFloat(rootView, "Y", heightPixels, heightPixels / 2);
+        ObjectAnimator rootViewAnim = ObjectAnimator.ofFloat(rootView, "Y", heightPixels, heightPixels / 2 - DensityUtil.dip_px(21, mContext.getResources().getDisplayMetrics().density));
         animatorSet.play(rootViewAnim);
-        animatorSet.setDuration(500);
+        animatorSet.setDuration(300);
         animatorSet.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
@@ -241,7 +249,7 @@ public class SelectList<A extends BaseSelectAdapter> {
         animatorSet.play(objectAnimator);
 
 
-        ObjectAnimator rootViewAnim = ObjectAnimator.ofFloat(rootView, "Y", heightPixels / 2, heightPixels);
+        ObjectAnimator rootViewAnim = ObjectAnimator.ofFloat(rootView, "Y", heightPixels / 2 - DensityUtil.dip_px(21, mContext.getResources().getDisplayMetrics().density), heightPixels);
         animatorSet.play(rootViewAnim);
         animatorSet.setDuration(500);
         animatorSet.addListener(new Animator.AnimatorListener() {

@@ -11,6 +11,8 @@ import java.util.HashMap;
 
 /**
  * 作   者 ： HaiChecker.Dev@gmail.com ON 17-3-8 11:19
+ * <p>
+ * 仿ｉＯＳ＿UITableView
  */
 
 public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
@@ -186,7 +188,6 @@ public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> exte
 
 
     @Override
-
     public int getItemCount() {
         if (isEmpty())
             return 1;
@@ -266,6 +267,7 @@ public abstract class BaseHeaderAdapter<VH extends RecyclerView.ViewHolder> exte
         }
         return -1;
     }
+
 
 
     /**

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="控件测试">
+        <Preference
+            android:key="select_list"
+            android:title="多级对话框测试" />
+
+        <Preference
+            android:key="dialog_wx"
+            android:summary="仿微信"
+            android:title="对话框测试" />
+        <Preference
+            android:summary="StateView"
+            android:title="状态View测试" />
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="类测试">
+        <Preference
+            android:summary="RecyclerView Adapter"
+            android:title="BaseHeaderAdapter测试" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

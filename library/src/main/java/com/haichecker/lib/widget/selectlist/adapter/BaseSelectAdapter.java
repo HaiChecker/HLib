@@ -9,6 +9,7 @@ import android.widget.ListView;
 
 import com.google.common.base.Preconditions;
 import com.haichecker.lib.widget.selectlist.SelectList;
+import com.haichecker.lib.widget.selectlist.SelectListValueInterface;
 import com.haichecker.lib.widget.selectlist.been.BaseBeen;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
  * 作   者 ： HaiChecker.Dev@gmail.com ON 17-1-18 19:54
  */
 
-public abstract class BaseSelectAdapter<T extends BaseBeen> extends BaseAdapter {
+public abstract class BaseSelectAdapter<T extends SelectListValueInterface> extends BaseAdapter {
     private Context mContext;
     protected List<T> data;
     protected LayoutInflater inflater;

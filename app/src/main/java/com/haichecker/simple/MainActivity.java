@@ -2,6 +2,7 @@ package com.haichecker.simple;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,34 +30,41 @@ import com.haichecker.lib.widget.viewtoast.Toasts;
 import com.haichecker.lib.widget.viewtoast.ViewToast;
 import com.haichecker.simple.databinding.ActivityMainBinding;
 import com.haichecker.simple.v.activity.TableViewTestActivity;
+import com.haichecker.simple.test.selectlist_test.SelectListTestActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends BaseActivity<ActivityMainBinding> {
-    List<String> data = new ArrayList<>();
-    SelectList<BaseSelectAdapter<BaseBeen>> selectAdapterSelectList;
+public class MainActivity extends AppCompatPreferenceActivity {
     private Toasts detalutToast;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         detalutToast = Toasts.create((ViewGroup) databinding.getRoot(), new DToast(this));
-        databinding.tableViewTest.setOnClickListener(new View.OnClickListener() {
+        addPreferencesFromResource(R.xml.main);
+
+
+        findPreference("select_list").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public void onClick(View view) {
-                TableViewTestActivity.startTableViewTest(getContext());
+            public boolean onPreferenceClick(Preference preference) {
+                SelectListTestActivity.start(MainActivity.this);
+                return false;
             }
         });
-        databinding.toastTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                detalutToast.setStyle(Style.STYLE_PROGRESS_CIR);
-                detalutToast.show(1000, null);
-            }
-        });
-//        databinding.recycler.setLayoutManager(new LinearLayoutManager(this));
+//        findPreference("select_list").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+//            @Override
+//            public boolean onPreferenceClick(Preference preference) {
+//                TableViewTestActivity.startTableViewTest(MainActivity.this);
+//                return false;
+//            }
+//        });
+//
+//        detalutToast.setStyle(Style.STYLE_PROGRESS_CIR);
+//        detalutToast.show(1000, null);
+
+//        R.layout.activity_main
+
 //        BaseHeaderAdapter headerAdapter = new BaseHeaderAdapter() {
 //            @Override
 //            public int headerCount() {
@@ -73,19 +81,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 //            public void onBindViewHolder(RecyclerView.ViewHolder holder, int contentIndex, int headerIndex, boolean isHeader, int countPosition) {
 //
 //            }
-//
-//            @Override
-//            public RecyclerView.ViewHolder onBaseCreateViewHolder(ViewGroup parent, int viewType) {
-//                return new RecyclerView.ViewHolder(new Button(getContext())) {
-//                };
-//            }
-//
 //        };
-//        headerAdapter.setEmptyView(R.layout.fragment_blank, databinding.recycler);
-//        databinding.recycler.setAdapter(headerAdapter);
 //
-//
-//        selectAdapterSelectList = new SelectList<>(this, databinding.getRoot());
 //
 //        selectAdapterSelectList.add("请选择", new BaseSelectAdapter<BaseBeen>(this, R.layout.select_list_item) {
 //            @SuppressLint("ViewHolder")
@@ -94,103 +91,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 //                return inflater.inflate(layout, viewGroup, false);
 //            }
 //        });
-//
-//
-//        toast = ViewToast.createDefalut(this, (ViewGroup) databinding.getRoot());
-//        databinding.viewToast.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                toast.setText("测试")
-//                        .showProgress()
-//                        .show();
-//            }
-//        });
-//        for (int i = 0; i < 10; i++) {
-//            data.add("测试数据：" + i);
-//        }
-//        final HDialog hDialog = new HDialog(this);
-//        hDialog.setCancelText("取消");
-//        hDialog.setOnHDialogListener(new OnHDialogListener() {
-//            @Override
-//            public void itemClick(View view, int index) {
-//                hDialog.dismiss();
-//            }
-//
-//            @Override
-//            public void itenLongClick(View view, int index) {
-//
-//            }
-//
-//            @Override
-//            public void okClick() {
-//
-//            }
-//
-//            @Override
-//            public void cancelClick() {
-//
-//            }
-//        });
-//        hDialog.setAdapter(new HDialogAdapter() {
-//            @Override
-//            public void itemOnView(Button view, int index) {
-//                view.setText("测试数据:" + index);
-//                view.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.test_back));
-//                view.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.test_back_333));
-//            }
-//
-//            @Override
-//            public void button(Button b, int type) {
-//
-//            }
-//
-//            @Override
-//            public int itemCount() {
-//                return 4;
-//            }
-//        });
-//        databinding.stateArc.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                databinding.stateArc.setType(1);
-////                selectAdapterSelectList.show();
-//                hDialog.show();
-//            }
-//        });
-//        databinding.scrollView.setCallBack(new ViewScroll.OnCallBack<String, Button>() {
-//            @Override
-//            public void onLoad(Button view, String s, int index) {
-//                view.setText("aaaaaaa" + s + "");
-//            }
-//
-//            @Override
-//            public Button getView() {
-//                Button textView = new Button(MainActivity.this);
-//                textView.setGravity(Gravity.CENTER_VERTICAL);
-//                textView.setMaxLines(1);
-//                textView.setLines(1);
-//                return textView;
-//            }
-//
-//            @Override
-//            public void onClick(Button textView, int p) {
-//                Log.d("ViewScroll", "Index=" + databinding.scrollView.getData().get(p));
-//            }
-//        });
-//        databinding.scrollView.setNewData(data);
 
-//        if (databinding.lodingView.isShowMessageing()) {
-//            ((Button) databinding.lodingView.getMessageView()).setText("哈哈");
-//        }
+
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
 
-    @Override
-    public int getLayoutRes() {
-        return R.layout.activity_main;
-    }
 }

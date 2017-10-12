@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.haichecker.lib.R;
+import com.haichecker.lib.widget.selectlist.SelectListValueInterface;
 import com.haichecker.lib.widget.selectlist.been.BaseBeen;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * 作   者 ： HaiChecker.Dev@gmail.com ON 17-1-18 20:04
  */
 
-public class DefalutSelectAdapter<T extends BaseBeen> extends BaseSelectAdapter<T> {
+public class DefalutSelectAdapter<T extends SelectListValueInterface> extends BaseSelectAdapter<T> {
 
 
     public DefalutSelectAdapter(Context mContext, List<T> data) {
@@ -36,8 +37,8 @@ public class DefalutSelectAdapter<T extends BaseBeen> extends BaseSelectAdapter<
         } else {
             h = (H) view.getTag();
         }
-        BaseBeen baseBeen = data.get(i);
-        h.text1.setText(baseBeen.getValue());
+        SelectListValueInterface selectListValueInterface = data.get(i);
+        h.text1.setText(selectListValueInterface.getContentText() + ":" + i);
         return view;
     }
 
