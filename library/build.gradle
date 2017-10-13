@@ -46,8 +46,8 @@ publish {
     userOrg = 'haichecker'
     groupId = 'com.shiwenping'
     artifactId = 'HLibs'
-    publishVersion = '1.6.4-beta'
-    desc = 'this is my android lib-修改SelectList'
+    publishVersion = '1.6.8-beta'
+    desc = 'this is my android lib - 修改动画'
     website = 'https://github.com/HaiChecker/HLib'
 }
 

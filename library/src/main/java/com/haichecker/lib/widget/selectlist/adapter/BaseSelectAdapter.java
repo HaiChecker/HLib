@@ -18,37 +18,27 @@ import java.util.List;
  * 作   者 ： HaiChecker.Dev@gmail.com ON 17-1-18 19:54
  */
 
-public abstract class BaseSelectAdapter<T extends SelectListValueInterface> extends BaseAdapter {
+public abstract class BaseSelectAdapter<T> extends BaseAdapter {
     private Context mContext;
-    protected List<T> data;
+    protected List<? extends SelectListValueInterface> data;
     protected LayoutInflater inflater;
     protected ListView listView;
 
     protected int groupIndex;
-    protected SelectList<BaseSelectAdapter> list;
 
     public void setGroupIndex(int groupIndex) {
         this.groupIndex = groupIndex;
     }
 
-    public void setList(SelectList<BaseSelectAdapter> list) {
-        this.list = list;
-    }
 
     public void setListView(ListView listView) {
         this.listView = listView;
     }
 
-    public void callClick(View view, int p, Object obj) {
-        if (list.getOnItemViewClickListener() != null) {
-            list.getOnItemViewClickListener().onClick(groupIndex, p, view, obj);
-        }
-    }
-
     @LayoutRes
     protected int layout;
 
-    public BaseSelectAdapter(Context mContext, List<T> data, @LayoutRes int layout) {
+    public BaseSelectAdapter(Context mContext, List<? extends SelectListValueInterface> data, @LayoutRes int layout) {
         this.mContext = mContext;
         this.data = data;
         this.layout = layout;
@@ -61,7 +51,7 @@ public abstract class BaseSelectAdapter<T extends SelectListValueInterface> exte
         inflater = LayoutInflater.from(mContext);
     }
 
-    public List<T> getData() {
+    public List<? extends SelectListValueInterface> getData() {
         return data;
     }
 
@@ -70,7 +60,7 @@ public abstract class BaseSelectAdapter<T extends SelectListValueInterface> exte
         notifyDataSetChanged();
     }
 
-    public void update(List<T> data) {
+    public void update(List<? extends SelectListValueInterface> data) {
         this.data = data;
         notifyDataSetChanged();
     }

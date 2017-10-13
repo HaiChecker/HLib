@@ -555,7 +555,7 @@ public class ViewToast<T extends ViewGroup> implements DialogInterface {
 
         final LayoutInflater layoutInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mView = (FrameLayout) layoutInflater.inflate(R.layout.toast, null);
+        mView = (FrameLayout) layoutInflater.inflate(R.layout.htoast, null);
 
         mProgressBarH = (ProgressBar) mView.findViewById(R.id.progressh);
         mProgressBarH.setMax(max);
